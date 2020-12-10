@@ -1,6 +1,6 @@
-package org.jetbrains.plugins.template.services
+package com.github.cedricziel.ideaconcourse.services
 
-import org.jetbrains.plugins.template.MyBundle
+import com.github.cedricziel.ideaconcourse.MyBundle
 
 class MyApplicationService {
 

@@ -1,6 +1,6 @@
 <idea-plugin>
     <id>com.github.cedricziel.ideaconcourse</id>
-    <name>idea-concourse</name>
+    <name>Concourse CI Support for IntelliJ</name>
     <vendor>cedricziel</vendor>
 
     <!-- Product and plugin compatibility requirements -->
@@ -8,12 +8,14 @@
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <applicationService serviceImplementation="com.github.cedricziel.ideaconcourse.services.MyApplicationService"/>
-        <projectService serviceImplementation="com.github.cedricziel.ideaconcourse.services.MyProjectService"/>
+        <applicationService serviceImplementation="com.cedricziel.idea.concourse.services.MyApplicationService"/>
+        <projectService serviceImplementation="com.cedricziel.idea.concourse.services.MyProjectService"/>
+
+        <psi.referenceContributor language="YAML" implementation="com.cedricziel.idea.concourse.psi.TaskNameReferenceContributor"/>
     </extensions>
 
     <applicationListeners>
-        <listener class="com.github.cedricziel.ideaconcourse.listeners.MyProjectManagerListener"
+        <listener class="com.cedricziel.idea.concourse.listeners.MyProjectManagerListener"
                   topic="com.intellij.openapi.project.ProjectManagerListener"/>
     </applicationListeners>
 </idea-plugin>

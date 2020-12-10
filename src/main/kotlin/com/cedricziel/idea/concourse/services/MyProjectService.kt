@@ -1,7 +1,7 @@
-package com.github.cedricziel.ideaconcourse.services
+package com.cedricziel.idea.concourse.services
 
+import com.cedricziel.idea.concourse.MyBundle
 import com.intellij.openapi.project.Project
-import com.github.cedricziel.ideaconcourse.MyBundle
 
 class MyProjectService(project: Project) {
 

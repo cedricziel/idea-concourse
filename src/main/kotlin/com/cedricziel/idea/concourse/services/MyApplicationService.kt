@@ -1,6 +1,6 @@
-package com.github.cedricziel.ideaconcourse.services
+package com.cedricziel.idea.concourse.services
 
-import com.github.cedricziel.ideaconcourse.MyBundle
+import com.cedricziel.idea.concourse.MyBundle
 
 class MyApplicationService {
 

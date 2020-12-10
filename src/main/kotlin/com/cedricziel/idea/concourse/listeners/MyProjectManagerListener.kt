@@ -1,9 +1,9 @@
-package com.github.cedricziel.ideaconcourse.listeners
+package com.cedricziel.idea.concourse.listeners
 
+import com.cedricziel.idea.concourse.services.MyProjectService
 import com.intellij.openapi.components.service
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.project.ProjectManagerListener
-import com.github.cedricziel.ideaconcourse.services.MyProjectService
 
 internal class MyProjectManagerListener : ProjectManagerListener {
 

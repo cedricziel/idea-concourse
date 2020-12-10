@@ -1,4 +1,4 @@
-package com.github.cedricziel.ideaconcourse
+package com.cedricziel.idea.concourse
 
 import com.intellij.AbstractBundle
 import org.jetbrains.annotations.NonNls

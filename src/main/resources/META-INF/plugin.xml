@@ -8,14 +8,8 @@
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <applicationService serviceImplementation="com.cedricziel.idea.concourse.services.MyApplicationService"/>
-        <projectService serviceImplementation="com.cedricziel.idea.concourse.services.MyProjectService"/>
+        <psi.referenceContributor language="yaml" implementation="com.cedricziel.idea.concourse.psi.TaskNameReferenceContributor"/>
 
         <psi.referenceContributor language="YAML" implementation="com.cedricziel.idea.concourse.psi.TaskNameReferenceContributor"/>
     </extensions>
-
-    <applicationListeners>
-        <listener class="com.cedricziel.idea.concourse.listeners.MyProjectManagerListener"
-                  topic="com.intellij.openapi.project.ProjectManagerListener"/>
-    </applicationListeners>
 </idea-plugin>

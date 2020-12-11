@@ -1,11 +1,12 @@
 <idea-plugin>
     <id>com.github.cedricziel.ideaconcourse</id>
     <name>Concourse CI Support for IntelliJ</name>
-    <vendor>cedricziel</vendor>
+    <vendor email="mail@cedric-ziel.com" url="https://www.cedric-ziel.com">Cedric Ziel</vendor>
 
     <!-- Product and plugin compatibility requirements -->
     <!-- https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html -->
     <depends>com.intellij.modules.platform</depends>
+    <depends>org.jetbrains.plugins.yaml</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <psi.referenceContributor language="yaml" implementation="com.cedricziel.idea.concourse.psi.TaskNameReferenceContributor"/>

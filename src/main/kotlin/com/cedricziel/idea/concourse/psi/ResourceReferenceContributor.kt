@@ -1,5 +1,6 @@
 package com.cedricziel.idea.concourse.psi
 
+import com.cedricziel.idea.concourse.ConcourseUtils
 import com.intellij.patterns.PlatformPatterns
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiReference
@@ -26,14 +27,16 @@ class ResourceReferenceContributor : PsiReferenceContributor() {
     }
 
     object NameReferenceProvider : PsiReferenceProvider() {
-        private val applicable = listOf("get", "put")
-
         override fun getReferencesByElement(element: PsiElement, context: ProcessingContext): Array<PsiReference> {
+            if (!ConcourseUtils.isPipelineFile(element.containingFile)) {
+                return PsiReference.EMPTY_ARRAY
+            }
+
             if (element.parent !is YAMLKeyValue) {
                 return PsiReference.EMPTY_ARRAY
             }
 
-            if (element is YAMLValue && applicable.contains((element.parent as YAMLKeyValue).keyText)) {
+            if (element is YAMLValue && ConcourseUtils.resourceSteps().contains((element.parent as YAMLKeyValue).keyText)) {
                 return arrayOf(ResourceReference(element as @NotNull YAMLScalar))
             }
 

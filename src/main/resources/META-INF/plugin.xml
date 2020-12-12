@@ -9,6 +9,12 @@
     <extensions defaultExtensionNs="com.intellij">
         <psi.referenceContributor language="yaml" implementation="com.cedricziel.idea.concourse.psi.ResourceReferenceContributor"/>
 
-        <psi.referenceContributor language="YAML" implementation="com.cedricziel.idea.concourse.psi.TaskNameReferenceContributor"/>
+        <localInspection language="yaml"
+                         displayName="Invalid resource name"
+                         groupName="Concourse CI"
+                         implementationClass="com.cedricziel.idea.concourse.codeInspection.ResourceNameInspection"/>
+        <!--
+        <fileBasedIndex implementation="com.cedricziel.idea.concourse.index.ResourceNameIndex"/>
+        -->
     </extensions>
 </idea-plugin>

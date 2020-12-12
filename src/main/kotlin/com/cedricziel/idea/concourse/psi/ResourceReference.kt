@@ -24,8 +24,8 @@ class ResourceReference(psiElement: @NotNull YAMLScalar) : PsiPolyVariantReferen
         val visitor = ResourceNamesYamlVisitor
         yamlFile.accept(visitor)
 
-        if (visitor.resources.isNotEmpty()) {
-            return PsiElementResolveResult.createResults(visitor.resources.values.map { it.element })
+        if (visitor.resources.isNotEmpty() && visitor.resources.containsKey(myElement.textValue)) {
+            return PsiElementResolveResult.createResults(listOf(visitor.resources[myElement.textValue]!!.element))
         }
 
         return ResolveResult.EMPTY_ARRAY

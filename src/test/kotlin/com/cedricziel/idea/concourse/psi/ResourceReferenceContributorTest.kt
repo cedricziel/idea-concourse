@@ -1,15 +1,13 @@
 package com.cedricziel.idea.concourse.psi
 
-import com.intellij.openapi.vfs.VfsUtilCore
-import com.intellij.psi.PsiFileSystemItem
 import com.intellij.psi.PsiPolyVariantReference
-import com.intellij.testFramework.TestDataPath
 import com.intellij.testFramework.UsefulTestCase
 import com.intellij.testFramework.fixtures.BasePlatformTestCase
 import com.intellij.util.containers.ContainerUtil
 import junit.framework.TestCase
+import org.jetbrains.yaml.psi.YAMLScalar
 
-class TaskNameReferenceContributorTest : BasePlatformTestCase() {
+class ResourceReferenceContributorTest : BasePlatformTestCase() {
 
     /**
      * Return absolute path to the test data. Not intended to be overridden in tests written as part of the IntelliJ IDEA codebase;
@@ -22,28 +20,24 @@ class TaskNameReferenceContributorTest : BasePlatformTestCase() {
     }
 
     fun testCanResolve() {
-        doTest("pipeline.yml")
+        doTest("pipeline.yml", "booklit")
     }
 
-    private fun doTest(filePath: String, vararg expectedResolve: String) {
+    private fun doTest(filePath: String, expectedResolve: String) {
         myFixture.apply {
             configureByFile(filePath)
 
             val reference = getReferenceAtCaretPosition() as PsiPolyVariantReference?
             TestCase.assertNotNull(reference)
 
-            val rootFile = file.containingDirectory.virtualFile
             val resolveResults = reference?.multiResolve(true)
-            val actualResolve = ContainerUtil.map(resolveResults) {
+            ContainerUtil.map(resolveResults) {
                 it?.element.let { element ->
                     TestCase.assertNotNull(element)
-                    UsefulTestCase.assertInstanceOf(element, PsiFileSystemItem::class.java)
-                    val fileSystemItem = element as PsiFileSystemItem?
-                    fileSystemItem?.let { file -> VfsUtilCore.getRelativePath(file.virtualFile, rootFile, '/') }
+                    UsefulTestCase.assertInstanceOf(element, YAMLScalar::class.java)
+                    UsefulTestCase.assertEquals(expectedResolve, element?.text)
                 }
             }
-
-            UsefulTestCase.assertContainsElements(actualResolve, *expectedResolve)
         }
     }
 }

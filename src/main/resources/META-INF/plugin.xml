@@ -11,6 +11,7 @@
 
         <localInspection language="yaml"
                          displayName="Invalid resource name"
+                         enabledByDefault="true"
                          groupName="Concourse CI"
                          implementationClass="com.cedricziel.idea.concourse.codeInspection.ResourceNameInspection"/>
         <!--

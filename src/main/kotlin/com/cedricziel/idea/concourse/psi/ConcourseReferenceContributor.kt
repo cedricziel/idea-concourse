@@ -23,6 +23,14 @@ class ConcourseReferenceContributor : PsiReferenceContributor() {
             ConcoursePatterns.resourceStepValue(),
             ResourceTypeReferenceProvider
         )
+        registrar.registerReferenceProvider(
+            ConcoursePatterns.resourceStepValue(),
+            InputReferenceProvider
+        )
+        registrar.registerReferenceProvider(
+            ConcoursePatterns.resourceStepValue(),
+            OutputReferenceProvider
+        )
     }
 
     object ResourceNameReferenceProvider : PsiReferenceProvider() {
@@ -47,6 +55,36 @@ class ConcourseReferenceContributor : PsiReferenceContributor() {
 
             if (element is YAMLValue && (element.parent as YAMLKeyValue).keyText == "type") {
                 return arrayOf(ResourceTypeReference(element as @NotNull YAMLScalar))
+            }
+
+            return PsiReference.EMPTY_ARRAY
+        }
+    }
+
+    object InputReferenceProvider : PsiReferenceProvider() {
+        override fun getReferencesByElement(element: PsiElement, context: ProcessingContext): Array<PsiReference> {
+            if (!ConcourseUtils.isPipelineFile(element.containingFile)) {
+                return PsiReference.EMPTY_ARRAY
+            }
+
+            val relevantParent = element.parent?.parent?.parent
+            if (element is YAMLValue && (relevantParent is YAMLKeyValue) && relevantParent.keyText == "input_mapping") {
+                return arrayOf(InputReference(element as @NotNull YAMLScalar))
+            }
+
+            return PsiReference.EMPTY_ARRAY
+        }
+    }
+
+    object OutputReferenceProvider : PsiReferenceProvider() {
+        override fun getReferencesByElement(element: PsiElement, context: ProcessingContext): Array<PsiReference> {
+            if (!ConcourseUtils.isPipelineFile(element.containingFile)) {
+                return PsiReference.EMPTY_ARRAY
+            }
+
+            val relevantParent = element.parent?.parent?.parent
+            if (element is YAMLValue && (relevantParent is YAMLKeyValue) && relevantParent.keyText == "output_mapping") {
+                return arrayOf(OutputReference(element as @NotNull YAMLScalar))
             }
 
             return PsiReference.EMPTY_ARRAY

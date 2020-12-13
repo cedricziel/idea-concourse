@@ -20,6 +20,10 @@ class ConcourseReferenceContributorTest : BaseConcoursePluginTest() {
         doTest("resource_types.yml", "rss")
     }
 
+    fun testCanResolveOutputs() {
+        doTest("pipeline_output.yml", "modules-8.0-i386")
+    }
+
     private fun doTest(filePath: String, expectedResolve: String) {
         myFixture.apply {
             val file = copyFileToProject(filePath, "pipeline.yml")

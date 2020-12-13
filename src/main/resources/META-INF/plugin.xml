@@ -14,6 +14,10 @@
                          enabledByDefault="true"
                          groupName="Concourse CI"
                          implementationClass="com.cedricziel.idea.concourse.codeInspection.ResourceNameInspection"/>
+
+        <codeInsight.lineMarkerProvider
+                language="yaml"
+                implementationClass="com.cedricziel.idea.concourse.codeInsight.ResourceNameLineMarkerProvider"/>
         <!--
         <fileBasedIndex implementation="com.cedricziel.idea.concourse.index.ResourceNameIndex"/>
         -->

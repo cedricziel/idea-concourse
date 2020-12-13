@@ -28,7 +28,7 @@ class ResourceTypeLineMarkerProvider : RelatedItemLineMarkerProvider() {
         val concourseResourceName = (element as YAMLScalar).textValue
         if (resourceTypes.isNotEmpty() && resourceTypes.containsKey(concourseResourceName)) {
             result.add(
-                NavigationGutterIconBuilder.create(ConcourseIcons.RESOURCE)
+                NavigationGutterIconBuilder.create(ConcourseIcons.RESOURCE_TYPE)
                     .setTooltipText(ConcourseBundle.message("gutter.goto.resource_type"))
                     .setTarget(resourceTypes[concourseResourceName]!!.element)
                     .createLineMarkerInfo(element.firstChild)

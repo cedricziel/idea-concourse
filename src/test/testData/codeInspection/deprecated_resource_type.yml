@@ -1,0 +1,15 @@
+---
+resources:
+  - name: booklit
+    type: docker-image
+    source:
+      uri: https://github.com/vito/booklit
+      branch: master
+
+jobs:
+  - name: unit
+    plan:
+      - get: booklit
+        trigger: true
+      - task: unit
+        file: booklit/ci/test.yml

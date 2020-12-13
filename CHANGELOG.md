@@ -1,7 +1,26 @@
-<!-- Keep a Changelog guide -> https://keepachangelog.com -->
-
-# idea-concourse Changelog
+# Changelog
 
 ## [Unreleased]
 ### Added
-- Initial scaffold created from [IntelliJ Platform Plugin Template](https://github.com/JetBrains/intellij-platform-plugin-template)
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+## [0.0.1]
+### Added
+- Example item
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security

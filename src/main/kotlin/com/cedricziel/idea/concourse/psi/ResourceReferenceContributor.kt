@@ -1,5 +1,6 @@
 package com.cedricziel.idea.concourse.psi
 
+import com.cedricziel.idea.concourse.ConcoursePatterns
 import com.cedricziel.idea.concourse.ConcourseUtils
 import com.intellij.patterns.PlatformPatterns
 import com.intellij.psi.PsiElement
@@ -17,11 +18,7 @@ import org.jetbrains.yaml.psi.YAMLValue
 class ResourceReferenceContributor : PsiReferenceContributor() {
     override fun registerReferenceProviders(registrar: PsiReferenceRegistrar) {
         registrar.registerReferenceProvider(
-            PlatformPatterns.or(
-                PlatformPatterns.psiElement(YAMLElementTypes::SCALAR_TEXT_VALUE.get()),
-                PlatformPatterns.psiElement(YAMLElementTypes::SCALAR_PLAIN_VALUE.get()),
-                PlatformPatterns.psiElement(YAMLElementTypes::SCALAR_QUOTED_STRING.get()),
-            ),
+            ConcoursePatterns.resourceStepValue(),
             NameReferenceProvider
         )
     }

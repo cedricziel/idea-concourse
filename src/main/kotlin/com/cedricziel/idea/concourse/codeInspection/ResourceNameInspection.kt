@@ -1,5 +1,6 @@
 package com.cedricziel.idea.concourse.codeInspection
 
+import com.cedricziel.idea.concourse.ConcoursePatterns
 import com.cedricziel.idea.concourse.ConcourseUtils
 import com.intellij.codeInspection.LocalInspectionTool
 import com.intellij.codeInspection.ProblemHighlightType
@@ -28,7 +29,7 @@ class ResourceNameInspection : LocalInspectionTool() {
 
         return object : YamlPsiElementVisitor() {
             override fun visitScalar(scalar: YAMLScalar) {
-                if (scalar.parent !is YAMLKeyValue) {
+                if (!ConcoursePatterns.resourceStepValue().accepts(scalar)) {
                     super.visitScalar(scalar)
                     return
                 }

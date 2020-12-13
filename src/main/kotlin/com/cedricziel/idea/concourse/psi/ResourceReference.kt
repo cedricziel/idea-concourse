@@ -1,6 +1,9 @@
 package com.cedricziel.idea.concourse.psi
 
+import com.cedricziel.idea.concourse.ConcourseIcons
+import com.cedricziel.idea.concourse.ConcourseUtils
 import com.cedricziel.idea.concourse.psi.visitor.ResourceNamesYamlVisitor
+import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.psi.PsiElementResolveResult
 import com.intellij.psi.PsiPolyVariantReferenceBase
 import com.intellij.psi.ResolveResult
@@ -29,5 +32,27 @@ class ResourceReference(psiElement: @NotNull YAMLScalar) : PsiPolyVariantReferen
         }
 
         return ResolveResult.EMPTY_ARRAY
+    }
+
+    /**
+     * Returns the array of String, [PsiElement] and/or [com.intellij.codeInsight.lookup.LookupElement]
+     * instances representing all identifiers that are visible at the location of the reference. The contents
+     * of the returned array is used to build the lookup list for basic code completion. (The list
+     * of visible identifiers may not be filtered by the completion prefix string - the
+     * filtering is performed later by the IDE.)
+     *
+     *
+     * This method is default since 2018.3.
+     *
+     * @return the array of available identifiers.
+     */
+    override fun getVariants(): Array<Any> {
+
+        return ConcourseUtils.findResourcesInFile(myElement.containingFile)
+            .map {
+                LookupElementBuilder.createWithSmartPointer(it.key, it.value.element!!)
+                    .withIcon(ConcourseIcons.RESOURCE)
+            }
+            .toTypedArray()
     }
 }

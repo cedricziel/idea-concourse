@@ -42,7 +42,7 @@ class ResourceNameInspection : LocalInspectionTool() {
                 }
 
                 val resourceName = parent.valueText
-                if (!ConcourseUtils.findResourcesInFile(scalar.containingFile).contains(resourceName)) {
+                if (!ConcourseUtils.findResourcesNamesInFile(scalar.containingFile).contains(resourceName)) {
                     holder.registerProblem(scalar, ConcourseBundle.message("inspection.resource.name.invalid"), ProblemHighlightType.WARNING)
                 }
 

@@ -1,5 +1,7 @@
 package com.cedricziel.idea.concourse
 
+import com.cedricziel.idea.concourse.psi.visitor.InputsYamlVisitor
+import com.cedricziel.idea.concourse.psi.visitor.OutputsYamlVisitor
 import com.cedricziel.idea.concourse.psi.visitor.ResourceNamesYamlVisitor
 import com.cedricziel.idea.concourse.psi.visitor.ResourceTypesYamlVisitor
 import com.intellij.psi.PsiFile
@@ -79,6 +81,28 @@ object ConcourseUtils {
         return visitor.resourceTypes
     }
 
+    fun findInputsInFile(containingFile: PsiFile?): MutableMap<String, @NotNull SmartPsiElementPointer<YAMLPsiElement>> {
+        if (containingFile == null) {
+            return mutableMapOf()
+        }
+
+        val visitor = InputsYamlVisitor()
+        visitor.visitFile(containingFile)
+
+        return visitor.inputs
+    }
+
+    fun findOutputsInFile(containingFile: PsiFile?): MutableMap<String, @NotNull SmartPsiElementPointer<YAMLPsiElement>> {
+        if (containingFile == null) {
+            return mutableMapOf()
+        }
+
+        val visitor = OutputsYamlVisitor()
+        visitor.visitFile(containingFile)
+
+        return visitor.outputs
+    }
+
     fun isPipelineFile(file: PsiFile): Boolean {
         return file.name == "pipeline.yml"
     }
@@ -93,5 +117,13 @@ object ConcourseUtils {
 
     fun isLocalOrCoreResourceType(file: PsiFile, resourceTypeName: String): Boolean {
         return CORE_RESOURCE_TYPES.contains(resourceTypeName) || findResourceTypeNamesInFile(file).contains(resourceTypeName)
+    }
+
+    fun isInOutputMappings(element: YAMLPsiElement): Boolean {
+        return YAMLUtil.getConfigFullName(element).contains("output_mapping")
+    }
+
+    fun isInInputMappings(element: YAMLPsiElement): Boolean {
+        return YAMLUtil.getConfigFullName(element).contains("input_mapping")
     }
 }

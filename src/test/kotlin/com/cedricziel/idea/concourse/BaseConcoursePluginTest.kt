@@ -2,8 +2,8 @@ package com.cedricziel.idea.concourse
 
 import com.intellij.testFramework.fixtures.BasePlatformTestCase
 
-open class BaseConcoursePluginTest : BasePlatformTestCase() {
+abstract class BaseConcoursePluginTest : BasePlatformTestCase() {
     override fun getTestDataPath(): String {
-        return "src/test/testData";
+        return "src/test/testData"
     }
 }

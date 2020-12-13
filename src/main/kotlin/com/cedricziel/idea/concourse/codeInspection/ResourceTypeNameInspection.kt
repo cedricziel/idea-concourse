@@ -11,7 +11,7 @@ import org.jetbrains.yaml.psi.YAMLKeyValue
 import org.jetbrains.yaml.psi.YAMLScalar
 import org.jetbrains.yaml.psi.YamlPsiElementVisitor
 
-class ResourceNameInspection : LocalInspectionTool() {
+class ResourceTypeNameInspection : LocalInspectionTool() {
     override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor {
         if (!ConcourseUtils.isPipelineFile(holder.file)) {
             return object : YamlPsiElementVisitor() {}
@@ -19,22 +19,22 @@ class ResourceNameInspection : LocalInspectionTool() {
 
         return object : YamlPsiElementVisitor() {
             override fun visitScalar(scalar: YAMLScalar) {
-                if (!ConcoursePatterns.resourceStepValue().accepts(scalar)) {
+                if (!ConcoursePatterns.resourceStepValue().accepts(scalar) || !ConcourseUtils.isInResources(scalar)) {
                     super.visitScalar(scalar)
                     return
                 }
 
                 val parent = scalar.parent as YAMLKeyValue
-                if (!ConcourseUtils.resourceSteps().contains(parent.keyText)) {
+                if (parent.keyText != "type") {
                     super.visitScalar(scalar)
                     return
                 }
 
-                val resourceName = parent.valueText
-                if (!ConcourseUtils.findResourcesNamesInFile(scalar.containingFile).contains(resourceName)) {
+                val resourceTypeName = parent.valueText
+                if (!ConcourseUtils.isLocalOrCoreResourceType(scalar.containingFile, resourceTypeName)) {
                     holder.registerProblem(
                         scalar,
-                        ConcourseBundle.message("inspection.resource.name.invalid"),
+                        ConcourseBundle.message("inspection.resource_type.name.invalid"),
                         ProblemHighlightType.WARNING
                     )
                 }

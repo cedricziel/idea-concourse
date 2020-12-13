@@ -11,7 +11,7 @@ import com.intellij.psi.PsiElement
 import org.jetbrains.yaml.psi.YAMLKeyValue
 import org.jetbrains.yaml.psi.YAMLScalar
 
-class ResourceNameLineMarkerProvider : RelatedItemLineMarkerProvider() {
+class ResourceTypeLineMarkerProvider : RelatedItemLineMarkerProvider() {
     override fun collectNavigationMarkers(
         element: PsiElement,
         result: MutableCollection<in RelatedItemLineMarkerInfo<PsiElement>>
@@ -20,17 +20,17 @@ class ResourceNameLineMarkerProvider : RelatedItemLineMarkerProvider() {
             return
         }
 
-        if (!ConcourseUtils.resourceSteps().contains((element.parent as YAMLKeyValue).keyText)) {
+        if ((element.parent as YAMLKeyValue).keyText != "type") {
             return
         }
 
-        val findResourcesInFile = ConcourseUtils.findResourcesInFile(element.containingFile)
+        val resourceTypes = ConcourseUtils.findResourceTypesInFile(element.containingFile)
         val concourseResourceName = (element as YAMLScalar).textValue
-        if (findResourcesInFile.isNotEmpty() && findResourcesInFile.containsKey(concourseResourceName)) {
+        if (resourceTypes.isNotEmpty() && resourceTypes.containsKey(concourseResourceName)) {
             result.add(
                 NavigationGutterIconBuilder.create(ConcourseIcons.RESOURCE)
-                    .setTooltipText(ConcourseBundle.message("gutter.goto.resource"))
-                    .setTarget(findResourcesInFile[concourseResourceName]!!.element)
+                    .setTooltipText(ConcourseBundle.message("gutter.goto.resource_type"))
+                    .setTarget(resourceTypes[concourseResourceName]!!.element)
                     .createLineMarkerInfo(element.firstChild)
             )
         }

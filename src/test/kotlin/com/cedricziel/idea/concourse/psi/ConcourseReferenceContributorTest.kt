@@ -7,9 +7,17 @@ import com.intellij.util.containers.ContainerUtil
 import junit.framework.TestCase
 import org.jetbrains.yaml.psi.YAMLScalar
 
-class ResourceReferenceContributorTest : BaseConcoursePluginTest() {
-    fun testCanResolve() {
+class ConcourseReferenceContributorTest : BaseConcoursePluginTest() {
+    override fun getTestDataPath(): String {
+        return super.getTestDataPath() + "/psi"
+    }
+
+    fun testCanResolveResource() {
         doTest("pipeline.yml", "booklit")
+    }
+
+    fun testCanResolveResourceTypes() {
+        doTest("resource_types.yml", "rss")
     }
 
     private fun doTest(filePath: String, expectedResolve: String) {

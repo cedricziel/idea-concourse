@@ -7,17 +7,25 @@
     <depends>org.jetbrains.plugins.yaml</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <psi.referenceContributor language="yaml" implementation="com.cedricziel.idea.concourse.psi.ResourceReferenceContributor"/>
+        <psi.referenceContributor language="yaml" implementation="com.cedricziel.idea.concourse.psi.ConcourseReferenceContributor"/>
 
         <localInspection language="yaml"
                          displayName="Invalid resource name"
                          enabledByDefault="true"
                          groupName="Concourse CI"
                          implementationClass="com.cedricziel.idea.concourse.codeInspection.ResourceNameInspection"/>
+        <localInspection language="yaml"
+                         displayName="Invalid resource type name"
+                         enabledByDefault="true"
+                         groupName="Concourse CI"
+                         implementationClass="com.cedricziel.idea.concourse.codeInspection.ResourceTypeNameInspection"/>
 
         <codeInsight.lineMarkerProvider
                 language="yaml"
                 implementationClass="com.cedricziel.idea.concourse.codeInsight.ResourceNameLineMarkerProvider"/>
+        <codeInsight.lineMarkerProvider
+                language="yaml"
+                implementationClass="com.cedricziel.idea.concourse.codeInsight.ResourceTypeLineMarkerProvider"/>
         <!--
         <fileBasedIndex implementation="com.cedricziel.idea.concourse.index.ResourceNameIndex"/>
         -->

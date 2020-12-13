@@ -1,0 +1,22 @@
+---
+resource_types:
+  - name: rss
+    type: registry-image
+    source:
+      repository: suhlig/concourse-rss-resource
+      tag: latest
+
+resources:
+  - name: booklit-releases
+    type: <warning descr="Invalid resource type">rsss</warning>
+    source:
+      url: http://www.qwantz.com/rssfeed.php
+  - name: file-bundle
+    type: s3
+    icon: zip-disk
+
+jobs:
+  - name: announce
+    plan:
+      - get: booklit-releases
+        trigger: true

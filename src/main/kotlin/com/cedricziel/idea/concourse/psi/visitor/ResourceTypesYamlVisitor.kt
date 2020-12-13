@@ -8,8 +8,8 @@ import org.jetbrains.yaml.psi.YAMLKeyValue
 import org.jetbrains.yaml.psi.YAMLPsiElement
 import org.jetbrains.yaml.psi.YamlRecursivePsiElementVisitor
 
-class ResourceNamesYamlVisitor : YamlRecursivePsiElementVisitor() {
-    val resources = mutableMapOf<String, @NotNull SmartPsiElementPointer<YAMLPsiElement>>()
+class ResourceTypesYamlVisitor : YamlRecursivePsiElementVisitor() {
+    val resourceTypes = mutableMapOf<String, @NotNull SmartPsiElementPointer<YAMLPsiElement>>()
 
     override fun visitKeyValue(keyValue: YAMLKeyValue) {
         if (keyValue.key == null) {
@@ -18,7 +18,7 @@ class ResourceNamesYamlVisitor : YamlRecursivePsiElementVisitor() {
             return
         }
 
-        if (!ConcourseUtils.isInResources(keyValue)) {
+        if (!ConcourseUtils.isInResourceTypes(keyValue)) {
             super.visitKeyValue(keyValue)
 
             return
@@ -31,7 +31,7 @@ class ResourceNamesYamlVisitor : YamlRecursivePsiElementVisitor() {
         }
 
         if (keyValue.value != null) {
-            resources.putIfAbsent(keyValue.valueText, SmartPointerManager.createPointer(keyValue.value!!))
+            resourceTypes.putIfAbsent(keyValue.valueText, SmartPointerManager.createPointer(keyValue.value!!))
         }
 
         super.visitKeyValue(keyValue)

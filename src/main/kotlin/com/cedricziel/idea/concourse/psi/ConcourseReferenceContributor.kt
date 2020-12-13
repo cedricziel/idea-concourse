@@ -13,15 +13,19 @@ import org.jetbrains.yaml.psi.YAMLKeyValue
 import org.jetbrains.yaml.psi.YAMLScalar
 import org.jetbrains.yaml.psi.YAMLValue
 
-class ResourceReferenceContributor : PsiReferenceContributor() {
+class ConcourseReferenceContributor : PsiReferenceContributor() {
     override fun registerReferenceProviders(registrar: PsiReferenceRegistrar) {
         registrar.registerReferenceProvider(
             ConcoursePatterns.resourceStepValue(),
-            NameReferenceProvider
+            ResourceNameReferenceProvider
+        )
+        registrar.registerReferenceProvider(
+            ConcoursePatterns.resourceStepValue(),
+            ResourceTypeReferenceProvider
         )
     }
 
-    object NameReferenceProvider : PsiReferenceProvider() {
+    object ResourceNameReferenceProvider : PsiReferenceProvider() {
         override fun getReferencesByElement(element: PsiElement, context: ProcessingContext): Array<PsiReference> {
             if (!ConcourseUtils.isPipelineFile(element.containingFile)) {
                 return PsiReference.EMPTY_ARRAY
@@ -29,6 +33,20 @@ class ResourceReferenceContributor : PsiReferenceContributor() {
 
             if (element is YAMLValue && ConcourseUtils.resourceSteps().contains((element.parent as YAMLKeyValue).keyText)) {
                 return arrayOf(ResourceReference(element as @NotNull YAMLScalar))
+            }
+
+            return PsiReference.EMPTY_ARRAY
+        }
+    }
+
+    object ResourceTypeReferenceProvider : PsiReferenceProvider() {
+        override fun getReferencesByElement(element: PsiElement, context: ProcessingContext): Array<PsiReference> {
+            if (!ConcourseUtils.isPipelineFile(element.containingFile)) {
+                return PsiReference.EMPTY_ARRAY
+            }
+
+            if (element is YAMLValue && (element.parent as YAMLKeyValue).keyText == "type") {
+                return arrayOf(ResourceTypeReference(element as @NotNull YAMLScalar))
             }
 
             return PsiReference.EMPTY_ARRAY

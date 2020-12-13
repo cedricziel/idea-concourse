@@ -1,5 +1,6 @@
 package com.cedricziel.idea.concourse.codeInspection
 
+import com.cedricziel.idea.concourse.ConcourseBundle
 import com.cedricziel.idea.concourse.ConcoursePatterns
 import com.cedricziel.idea.concourse.ConcourseUtils
 import com.intellij.codeInspection.LocalInspectionTool
@@ -42,7 +43,7 @@ class ResourceNameInspection : LocalInspectionTool() {
 
                 val resourceName = parent.valueText
                 if (!ConcourseUtils.findResourcesInFile(scalar.containingFile).contains(resourceName)) {
-                    holder.registerProblem(scalar, "Invalid resource", ProblemHighlightType.WARNING)
+                    holder.registerProblem(scalar, ConcourseBundle.message("inspection.resource.name.invalid"), ProblemHighlightType.WARNING)
                 }
 
                 super.visitScalar(scalar)

@@ -21,7 +21,7 @@ class ResourceReference(psiElement: @NotNull YAMLScalar) : PsiPolyVariantReferen
     override fun multiResolve(incompleteCode: Boolean): Array<ResolveResult> {
         val yamlFile = element.containingFile as YAMLFile
 
-        val visitor = ResourceNamesYamlVisitor
+        val visitor = ResourceNamesYamlVisitor()
         yamlFile.accept(visitor)
 
         if (visitor.resources.isNotEmpty() && visitor.resources.containsKey(myElement.textValue)) {

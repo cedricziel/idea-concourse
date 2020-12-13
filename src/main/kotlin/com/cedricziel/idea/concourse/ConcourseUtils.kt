@@ -14,8 +14,8 @@ class ConcourseUtils {
                 return arrayListOf()
             }
 
-            val visitor = ResourceNamesYamlVisitor
-            visitor.visitFile(containingFile)
+        val visitor = ResourceNamesYamlVisitor()
+        visitor.visitFile(containingFile)
 
             return visitor.resources.keys.toList()
         }

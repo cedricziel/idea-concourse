@@ -1,6 +1,7 @@
 package com.cedricziel.idea.concourse.codeInsight
 
 import com.cedricziel.idea.concourse.ConcourseBundle
+import com.cedricziel.idea.concourse.ConcourseIcons
 import com.cedricziel.idea.concourse.ConcoursePatterns
 import com.cedricziel.idea.concourse.ConcourseUtils
 import com.cedricziel.idea.concourse.psi.visitor.ResourceNamesYamlVisitor
@@ -35,7 +36,7 @@ class ResourceNameLineMarkerProvider : RelatedItemLineMarkerProvider() {
         val concourseResourceName = (element as YAMLScalar).textValue
         if (visitor.resources.isNotEmpty() && visitor.resources.containsKey(concourseResourceName)) {
             result.add(
-                NavigationGutterIconBuilder.create(AllIcons.FileTypes.Yaml)
+                NavigationGutterIconBuilder.create(ConcourseIcons.RESOURCE)
                     .setTooltipText(ConcourseBundle.message("gutter.goto.resource"))
                     .setTarget(visitor.resources[concourseResourceName]!!.element)
                     .createLineMarkerInfo(element.firstChild)

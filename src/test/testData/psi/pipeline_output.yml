@@ -1,0 +1,37 @@
+---
+resource_types:
+  - name: github-status
+    type: registry-image
+    source:
+      repository: resource/github-status
+
+resources:
+  - name: source-git
+    type: git
+    icon: github
+  - name: repo-status
+    type: github-status
+    icon: github
+
+plan:
+  - name: x86-8.0
+    max_in_flight: 1
+    plan:
+      - get: source-git
+        trigger: true
+        passed: [ self-update ]
+      - put: repo-status
+        params:
+          path: source-git
+          statuses:
+            - state: pending
+              description: Building on concourse
+              context: x86-8.0
+      - task: build-8.0-i386
+        file: source-git/ci/build-extension.yml
+        output_mapping:
+          modules: modules-8.0-i386
+      - task: deploy-8.0-i386
+        file: source-git/ci/deploy-extension.yml
+        input_mapping:
+          modules: modules-8.0-<caret>i386

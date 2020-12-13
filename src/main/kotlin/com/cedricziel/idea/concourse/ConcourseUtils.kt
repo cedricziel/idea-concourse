@@ -9,6 +9,10 @@ import org.jetbrains.yaml.YAMLUtil
 import org.jetbrains.yaml.psi.YAMLPsiElement
 
 object ConcourseUtils {
+    val DEPRECATED_RESOURCE_TYPES = mapOf(
+        Pair("docker-image", "registry-image")
+    )
+
     val CORE_RESOURCE_TYPES = listOf(
         "bosh-io-release",
         "bosh-io-stemcell",

@@ -10,6 +10,11 @@
         <psi.referenceContributor language="yaml" implementation="com.cedricziel.idea.concourse.psi.ConcourseReferenceContributor"/>
 
         <localInspection language="yaml"
+                         displayName="Legacy resource type"
+                         enabledByDefault="true"
+                         groupName="Concourse CI"
+                         implementationClass="com.cedricziel.idea.concourse.codeInspection.DeprecatedResourceTypeInspection"/>
+        <localInspection language="yaml"
                          displayName="Invalid resource name"
                          enabledByDefault="true"
                          groupName="Concourse CI"

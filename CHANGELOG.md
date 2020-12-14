@@ -2,7 +2,7 @@
 
 ## [Unreleased]
 ### Added
-
+- Recognize concourse pipeline files by top level yaml keys
 ### Changed
 
 ### Deprecated

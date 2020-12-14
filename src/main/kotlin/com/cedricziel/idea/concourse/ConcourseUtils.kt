@@ -8,6 +8,7 @@ import com.intellij.psi.PsiFile
 import com.intellij.psi.SmartPsiElementPointer
 import org.jetbrains.annotations.NotNull
 import org.jetbrains.yaml.YAMLUtil
+import org.jetbrains.yaml.psi.YAMLFile
 import org.jetbrains.yaml.psi.YAMLPsiElement
 
 object ConcourseUtils {
@@ -104,7 +105,19 @@ object ConcourseUtils {
     }
 
     fun isPipelineFile(file: PsiFile): Boolean {
-        return file.name == "pipeline.yml"
+        if (file !is YAMLFile) {
+            return false
+        }
+
+        if (file.name == "pipeline.yml") {
+            return true
+        }
+
+        val resourceTypes = YAMLUtil.getQualifiedKeyInFile(file, "resource_types")
+        val resources = YAMLUtil.getQualifiedKeyInFile(file, "resources")
+        val plan = YAMLUtil.getQualifiedKeyInFile(file, "plan")
+
+        return resourceTypes != null || resources != null || plan != null
     }
 
     fun isInResources(element: YAMLPsiElement): Boolean {

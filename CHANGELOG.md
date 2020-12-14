@@ -17,7 +17,10 @@
 ### Security
 ## [0.0.1]
 ### Added
-- Example item
+- Initial scaffold created from [IntelliJ Platform Plugin Template](https://github.com/JetBrains/intellij-platform-plugin-template)
+- Inspections for missing resources and missing resource types
+- autocompletion for resources and resource types
+- Input and Output indexing
 ### Changed
 
 ### Deprecated

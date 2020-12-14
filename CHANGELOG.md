@@ -3,7 +3,7 @@
 ## [Unreleased]
 ### Added
 
-* add references to Inputs and Outputs to enable completion
+- add references to Inputs and Outputs to enable completion
   and jump-to-definition
 
 ### Changed

@@ -3,6 +3,18 @@
 ## [Unreleased]
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+## [0.0.2]
+### Added
+
 - add references to Inputs and Outputs to enable completion
   and jump-to-definition
 

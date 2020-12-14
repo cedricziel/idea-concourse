@@ -17,4 +17,18 @@ class ConcourseUtilsTest : BaseConcoursePluginTest() {
 
         TestCase.assertTrue(ConcourseUtils.findInputsInFile(psiFile).containsKey("modules-8.0-i386"))
     }
+
+    fun testCanRecognizePipelineFiles_byName() {
+        val file = myFixture.copyFileToProject("pipeline.yml", "pipeline_out.yml")
+        val psiFile = PsiManager.getInstance(myFixture.project).findFile(file)
+
+        TestCase.assertTrue(ConcourseUtils.isPipelineFile(psiFile!!))
+    }
+
+    fun testCanRecognizePipelineFiles_byKeys() {
+        val file = myFixture.copyFileToProject("pipeline.yml", "foo.yml")
+        val psiFile = PsiManager.getInstance(myFixture.project).findFile(file)
+
+        TestCase.assertTrue(ConcourseUtils.isPipelineFile(psiFile!!))
+    }
 }

@@ -2,6 +2,18 @@
 
 ## [Unreleased]
 ### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+## [0.0.3]
+### Added
 - Recognize concourse pipeline files by top level yaml keys
 - Remove "IntelliJ" from plugin name
 ### Changed

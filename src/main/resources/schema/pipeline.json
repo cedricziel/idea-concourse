@@ -1,0 +1,688 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Concourse CI Pipeline",
+  "type": "object",
+  "properties": {
+    "resource_types": {
+      "$ref": "#/definitions/resource_type"
+    },
+    "resources": {
+      "$ref": "#/definitions/resource"
+    },
+    "jobs": {
+      "$ref": "#/definitions/jobs"
+    }
+  },
+  "definitions": {
+    "job": {
+      "type": "object",
+      "required": [
+        "name",
+        "plan"
+      ],
+      "properties": {
+        "name": {
+          "description": "The name of the job. This should be short; it will show up in URLs.",
+          "$ref": "#/definitions/identifier"
+        },
+        "plan": {
+          "type": "array",
+          "description": "The sequence of steps to execute.",
+          "items": {
+            "$ref": "#/definitions/step"
+          }
+        },
+        "old_name": {
+          "description": "The old name of the job. If configured, the history of old job will be inherited to the new one. Once the pipeline is set, this field can be removed as the builds have been transfered.",
+          "$ref": "#/definitions/identifier"
+        },
+        "serial": {
+          "type": "boolean",
+          "description": "Default false. If set to true, builds will queue up and execute one-by-one, rather than executing in parallel."
+        },
+        "build_log_retention": {
+          "type": "object",
+          "description": "Configures the retention policy for build logs. This is useful if you have a job that runs often but after some amount of time the logs aren't worth keeping around.\n\nBuilds which are not retained by the configured policy will have their logs reaped. If this configuration is omitted, logs are kept forever.\n\n",
+          "properties": {
+            "builds": {
+              "type": "number"
+            },
+            "days": {
+              "type": "number"
+            },
+            "minimum_succeeded_builds": {
+              "type": "number"
+            }
+          }
+        },
+        "build_logs_to_retain": {
+          "type": "number",
+          "deprecationMessage": "Deprecated. Equivalent to setting job.build_log_retention.builds."
+        },
+        "serial_groups": {
+          "type": "array",
+          "description": "Default []. When set to an array of arbitrary tag-like strings, builds of this job and other jobs referencing the same tags will be serialized.",
+          "items": {
+            "$ref": "#/definitions/identifier"
+          }
+        },
+        "max_in_flight": {
+          "type": "number",
+          "description": "If set, specifies a maximum number of builds to run at a time. If serial or serial_groups are set, they take precedence and force this value to be 1."
+        },
+        "public": {
+          "type": "boolean",
+          "description": "Default false. If set to true, the build log of this job will be viewable by unauthenticated users.",
+          "default": false
+        },
+        "disable_manual_trigger": {
+          "type": "boolean",
+          "description": "If set to true, manual triggering of the job (via the web UI or fly trigger-job) will be disabled.",
+          "default": false
+        },
+        "interruptible": {
+          "type": "boolean",
+          "description": "If this value is set to true, the worker will not wait on the builds of this job.",
+          "default": false
+        },
+        "on_success": {
+          "$ref": "#/definitions/step",
+          "description": "Step to execute when the job succeeds. Equivalent to the step.on_success hook."
+        },
+        "on_failure": {
+          "$ref": "#/definitions/step",
+          "description": "Step to execute when the job fails. Equivalent to the step.on_failure hook."
+        },
+        "on_error": {
+          "$ref": "#/definitions/step",
+          "description": "Step to execute when the job errors. Equivalent to the step.on_error hook."
+        },
+        "on_abort": {
+          "$ref": "#/definitions/step",
+          "description": "Step to execute when the job aborts. Equivalent to the step.on_abort hook."
+        },
+        "ensure": {
+          "$ref": "#/definitions/step",
+          "description": "Step to execute regardless of whether the job succeeds, fails, errors, or aborts. Equivalent to the step.ensure hook."
+        }
+      }
+    },
+    "jobs": {
+      "title": "Concourse CI pipeline jobs",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/job"
+      }
+    },
+    "resource_type": {
+      "title": "Concourse CI pipeline resource types",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "type"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "docker-image",
+              "registry-image"
+            ]
+          },
+          "source": {
+            "type": "object"
+          },
+          "privileged": {
+            "type": "boolean",
+            "default": false
+          },
+          "params": {
+            "type": "object"
+          },
+          "check_every": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array"
+          },
+          "unique_version_history": {
+            "type": "boolean"
+          },
+          "defaults": {
+            "type": "array"
+          }
+        }
+      }
+    },
+    "resource": {
+      "title": "Concourse CI pipeline resources",
+      "type": "array",
+      "required": [
+        "name",
+        "type"
+      ],
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "source": {
+            "type": "object"
+          },
+          "old_name": {
+            "type": "string"
+          },
+          "icon": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          },
+          "check_every": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array"
+          },
+          "public": {
+            "type": "boolean"
+          },
+          "webhook_token": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "step": {
+      "type": "object",
+      "description": "Jobs determine the actions of your pipeline.",
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "$ref": "#/definitions/default-step"
+        },
+        {
+          "oneOf": [
+            {
+              "$ref": "#/definitions/get-step"
+            },
+            {
+              "$ref": "#/definitions/put-step"
+            },
+            {
+              "$ref": "#/definitions/set_pipeline-step"
+            },
+            {
+              "$ref": "#/definitions/task-step"
+            },
+            {
+              "$ref": "#/definitions/load_var-step"
+            },
+            {
+              "$ref": "#/definitions/in_parallel-step"
+            },
+            {
+              "$ref": "#/definitions/aggregate-step"
+            },
+            {
+              "$ref": "#/definitions/do-step"
+            },
+            {
+              "$ref": "#/definitions/try-step"
+            }
+          ]
+        }
+      ]
+    },
+    "aggregate-step": {
+      "deprecationMessage": "Deprecated. Use `in_parallel` step instead.",
+      "properties": {
+        "aggregate": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/step"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "aggregate"
+      ]
+    },
+    "do-step": {
+      "properties": {
+        "do": {
+          "type": "object",
+          "$ref": "#/definitions/step"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "do"
+      ]
+    },
+    "get-step": {
+      "properties": {
+        "get": {
+          "$ref": "#/definitions/identifier"
+        },
+        "params": {
+          "description": "Arbitrary configuration to pass to the resource. Refer to the resource type's documentation to see what it supports.",
+          "$ref": "#/definitions/config"
+        },
+        "passed": {
+          "type": "array",
+          "description": "When specified, only the versions of the resource that made it through the given list of jobs (AND-ed together) will be considered when triggering and fetching.",
+          "items": [
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "resource": {
+          "type": "string"
+        },
+        "trigger": {
+          "type": "boolean"
+        },
+        "version": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "get"
+      ]
+    },
+    "put-step": {
+      "properties": {
+        "params": {
+          "description": "Arbitrary configuration to pass to the resource. Refer to the resource type's documentation to see what it supports.",
+          "$ref": "#/definitions/config"
+        },
+        "put": {
+          "$ref": "#/definitions/identifier"
+        },
+        "resource": {
+          "type": "string",
+          "description": "Defaults to the value of put. The resource to update, as configured in pipeline.resources."
+        },
+        "inputs": {
+          "oneOf": [
+            {
+              "type": "string",
+              "enum": [
+                "all",
+                "detect"
+              ]
+            },
+            {
+              "type": "array",
+              "items": [
+                {
+                  "type": "string"
+                }
+              ]
+            }
+          ]
+        },
+        "get_params": {
+          "description": "Arbitrary configuration to get to the resource during the implicit get step. Refer to the resource type's documentation to see what it supports.",
+          "$ref": "#/definitions/config"
+        }
+      },
+      "required": [
+        "put"
+      ]
+    },
+    "set_pipeline-step": {
+      "properties": {
+        "set_pipeline": {
+          "$ref": "#/definitions/identifier"
+        },
+        "file": {
+          "$ref": "#/definitions/file-path"
+        },
+        "vars": {
+          "type": "object"
+        },
+        "var_files": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "team": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "set_pipeline",
+        "file"
+      ]
+    },
+    "task-step": {
+      "properties": {
+        "task": {
+          "$ref": "#/definitions/identifier"
+        },
+        "config": {
+          "$ref": "#/definitions/task-config"
+        },
+        "file": {
+          "$ref": "#/definitions/file-path"
+        },
+        "image": {
+          "$ref": "#/definitions/identifier"
+        },
+        "privileged": {
+          "type": "boolean"
+        },
+        "vars": {
+          "type": "object"
+        },
+        "params": {
+          "type": "object"
+        },
+        "input_mapping": {
+          "type": "object"
+        },
+        "output_mapping": {
+          "type": "object"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "task"
+      ]
+    },
+    "try-step": {
+      "properties": {
+        "try": {
+          "type": "object",
+          "$ref": "#/definitions/step"
+        }
+      }
+    },
+    "load_var-step": {
+      "properties": {
+        "load_var": {
+          "type": "string"
+        },
+        "file": {
+          "type": "string"
+        },
+        "format": {
+          "type": "string",
+          "enum": [
+            "json",
+            "yaml",
+            "yml",
+            "trim",
+            "raw"
+          ]
+        },
+        "reveal": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "load_var",
+        "file"
+      ]
+    },
+    "in_parallel-step": {
+      "properties": {
+        "in_parallel": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/step"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "in_parallel"
+      ]
+    },
+    "default-step": {
+      "properties": {
+        "timeout": {
+          "type": "string"
+        },
+        "attempts": {
+          "type": "number"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "on_success": {
+          "$ref": "#/definitions/step"
+        },
+        "on_failure": {
+          "$ref": "#/definitions/step"
+        },
+        "on_abort": {
+          "$ref": "#/definitions/step"
+        },
+        "on_error": {
+          "$ref": "#/definitions/step"
+        },
+        "ensure": {
+          "$ref": "#/definitions/step"
+        }
+      }
+    },
+    "task-config": {
+      "type": "object",
+      "properties": {
+        "platform": {
+          "description": "The platform the task should run on. This determines the pool of workers that the task can run against.",
+          "$ref": "#/definitions/platform_type"
+        },
+        "image_resource": {
+          "description": "The container image to run with, as provided by an anonymous resource definition",
+          "$ref": "#/definitions/anonymous_resource"
+        },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/input"
+          }
+        },
+        "outputs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/output"
+          }
+        },
+        "caches": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/cache"
+          }
+        },
+        "params": {
+          "$ref": "#/definitions/env-vars"
+        },
+        "run": {
+          "$ref": "#/definitions/command"
+        },
+        "rootfs_uri": {
+          "type": "string"
+        },
+        "container_limits": {
+          "$ref": "#/definitions/container_limits"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "platform",
+        "image_resource",
+        "run"
+      ]
+    },
+    "platform_type": {
+      "type": "string",
+      "enum": [
+        "linux",
+        "darwin",
+        "windows"
+      ]
+    },
+    "anonymous_resource": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/resource_type_name"
+        },
+        "source": {
+          "$ref": "#/definitions/config"
+        },
+        "params": {
+          "$ref": "#/definitions/config"
+        },
+        "version": {
+          "$ref": "#/definitions/version"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "source"
+      ]
+    },
+    "resource_type_name": {
+      "type": "string",
+      "enum": [
+        "registry-image",
+        "docker-image",
+        "git"
+      ]
+    },
+    "config": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^[A-Za-z_][A-Za-z0-9_]*$"
+      }
+    },
+    "version": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "input": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "$ref": "#/definitions/identifier"
+        },
+        "path": {
+          "$ref": "#/definitions/dir-path"
+        },
+        "optional": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "name"
+      ]
+    },
+    "output": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "$ref": "#/definitions/identifier"
+        },
+        "path": {
+          "$ref": "#/definitions/dir-path"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "name"
+      ]
+    },
+    "cache": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "$ref": "#/definitions/dir-path"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "path"
+      ]
+    },
+    "env-vars": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "command": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "$ref": "#/definitions/file-path"
+        },
+        "args": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "dir": {
+          "$ref": "#/definitions/dir-path"
+        },
+        "user": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "path"
+      ]
+    },
+    "identifier": {
+      "type": "string",
+      "pattern": "^[a-z].*$"
+    },
+    "dir-path": {
+      "type": "string"
+    },
+    "file-path": {
+      "type": "string"
+    },
+    "container_limits": {
+      "type": "object",
+      "properties": {
+        "cpu": {
+          "type": "number",
+          "minimum": 0
+        },
+        "memory": {
+          "type": "number",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

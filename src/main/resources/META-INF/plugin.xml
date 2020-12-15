@@ -35,4 +35,8 @@
         <fileBasedIndex implementation="com.cedricziel.idea.concourse.index.ResourceNameIndex"/>
         -->
     </extensions>
+
+    <extensions defaultExtensionNs="JavaScript.JsonSchema">
+        <ProviderFactory implementation="com.cedricziel.idea.concourse.ConcoursePipelineSchemaProvider"/>
+    </extensions>
 </idea-plugin>

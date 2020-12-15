@@ -18,6 +18,7 @@
 
 - add references to Inputs and Outputs to enable completion
   and jump-to-definition
+- add Concourse JSON Schema Provider for schema validation
 
 ### Changed
 

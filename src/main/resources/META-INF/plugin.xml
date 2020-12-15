@@ -1,6 +1,6 @@
 <idea-plugin>
     <id>com.github.cedricziel.ideaconcourse</id>
-    <name>Concourse CI Support for IntelliJ</name>
+    <name>Concourse CI Support</name>
     <vendor email="mail@cedric-ziel.com" url="https://www.cedric-ziel.com">Cedric Ziel</vendor>
 
     <depends>com.intellij.modules.platform</depends>

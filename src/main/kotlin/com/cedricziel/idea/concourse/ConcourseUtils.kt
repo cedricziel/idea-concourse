@@ -4,6 +4,7 @@ import com.cedricziel.idea.concourse.psi.visitor.InputsYamlVisitor
 import com.cedricziel.idea.concourse.psi.visitor.OutputsYamlVisitor
 import com.cedricziel.idea.concourse.psi.visitor.ResourceNamesYamlVisitor
 import com.cedricziel.idea.concourse.psi.visitor.ResourceTypesYamlVisitor
+import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.PsiFile
 import com.intellij.psi.SmartPsiElementPointer
 import org.jetbrains.annotations.NotNull
@@ -118,6 +119,14 @@ object ConcourseUtils {
         val plan = YAMLUtil.getQualifiedKeyInFile(file, "plan")
 
         return resourceTypes != null || resources != null || plan != null
+    }
+
+    fun isPipelineFile(file: VirtualFile): Boolean {
+        return file.name.contains("pipeline") && (file.name.endsWith(".yml") || file.name.endsWith(".yaml"))
+    }
+
+    fun isTaskFile(file: VirtualFile): Boolean {
+        return file.name.contains("task") && (file.name.endsWith(".yml") || file.name.endsWith(".yaml"))
     }
 
     fun isInResources(element: YAMLPsiElement): Boolean {

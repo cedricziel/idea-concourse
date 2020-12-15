@@ -1,0 +1,204 @@
+{
+  "$id": "https://concourse-ci.org/concouse.task.schema.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Task",
+  "description": "Schema based on https://concourse-ci.org/tasks.html#schema.task",
+  "type": "object",
+  "properties": {
+    "platform": {
+      "description": "The platform the task should run on. This determines the pool of workers that the task can run against.",
+      "$ref": "#/definitions/platform_type"
+    },
+    "image_resource": {
+      "description": "The container image to run with, as provided by an anonymous resource definition",
+      "$ref": "#/definitions/anonymous_resource"
+    },
+    "inputs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/input"
+      }
+    },
+    "outputs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/output"
+      }
+    },
+    "caches": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/cache"
+      }
+    },
+    "params": {
+      "$ref": "#/definitions/env-vars"
+    },
+    "run": {
+      "$ref": "#/definitions/command"
+    },
+    "rootfs_uri": {
+      "type": "string"
+    },
+    "container_limits": {
+      "$ref": "#/definitions/container_limits"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "platform",
+    "image_resource",
+    "run"
+  ],
+  "definitions": {
+    "platform_type": {
+      "type": "string",
+      "enum": [
+        "linux",
+        "darwin",
+        "windows"
+      ]
+    },
+    "anonymous_resource": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/resource_type_name"
+        },
+        "source": {
+          "$ref": "#/definitions/config"
+        },
+        "params": {
+          "$ref": "#/definitions/config"
+        },
+        "version": {
+          "$ref": "#/definitions/version"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "source"
+      ]
+    },
+    "resource_type_name": {
+      "type": "string",
+      "enum": [
+        "registry-image",
+        "docker-image",
+        "git"
+      ]
+    },
+    "config": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^[A-Za-z_][A-Za-z0-9_]*$"
+      }
+    },
+    "version": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "input": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "$ref": "#/definitions/identifier"
+        },
+        "path": {
+          "$ref": "#/definitions/dir-path"
+        },
+        "optional": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "name"
+      ]
+    },
+    "output": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "$ref": "#/definitions/identifier"
+        },
+        "path": {
+          "$ref": "#/definitions/dir-path"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "name"
+      ]
+    },
+    "cache": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "$ref": "#/definitions/dir-path"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "path"
+      ]
+    },
+    "env-vars": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "command": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "$ref": "#/definitions/file-path"
+        },
+        "args": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "dir": {
+          "$ref": "#/definitions/dir-path"
+        },
+        "user": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "path"
+      ]
+    },
+    "identifier": {
+      "type": "string",
+      "pattern": "^[a-z].*$"
+    },
+    "dir-path": {
+      "type": "string"
+    },
+    "file-path": {
+      "type": "string"
+    },
+    "container_limits": {
+      "type": "object",
+      "properties": {
+        "cpu": {
+          "type": "number",
+          "minimum": 0
+        },
+        "memory": {
+          "type": "number",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

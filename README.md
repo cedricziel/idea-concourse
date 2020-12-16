@@ -8,6 +8,13 @@
 
 <!-- Plugin description -->
 This plugin integrates knowledge about ConcourseCI pipeline files in IntelliJ based IDEs.
+
+Structure:
+* the plugin provides a JSON schema to the IDE to provide stable autocompletion
+  and validation for keys in both pipelines and task files
+
+Validation:
+* the plugin provides some inspections to avoid referencing invalid data
 <!-- Plugin description end -->
 
 ## Installation

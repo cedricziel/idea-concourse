@@ -2,6 +2,7 @@
 
 ## [Unreleased]
 ### Added
+- add custom plugin icon
 
 ### Changed
 

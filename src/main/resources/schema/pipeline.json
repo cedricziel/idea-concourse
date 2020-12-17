@@ -4,13 +4,28 @@
   "type": "object",
   "properties": {
     "resource_types": {
-      "$ref": "#/definitions/resource_type"
+      "title": "Concourse CI pipeline resource types",
+      "description": "Each resource in a pipeline has a type. The resource's type determines what versions are detected, the bits that are fetched when the resource's get step runs, and the side effect that occurs when the resource's put step runs.\n\nConcourse comes with a few \"core\" resource types to cover common use cases like git and s3 - the rest are developed and supported by the Concourse community. An exhaustive list of all resource types is available in the Resource Types catalog.",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/resource_type"
+      }
     },
     "resources": {
-      "$ref": "#/definitions/resource"
+      "title": "Concourse CI pipeline resources",
+      "description": "Resources are the heart and soul of Concourse. They represent all external inputs to and outputs of jobs in the pipeline.\n\nEach resource represents a versioned artifact with an external source of truth. Configuring the same resource in any pipeline on any Concourse cluster will behave the exact same way. Concourse will continuously check each configured resource to discover new versions. These versions then flow through the pipeline via get steps configured on Jobs.",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/resource"
+      }
     },
     "jobs": {
-      "$ref": "#/definitions/jobs"
+      "title": "Concourse CI pipeline jobs",
+      "description": "Jobs determine the actions of your pipeline. They determine how resources progress through it, and how the pipeline is visualized.\n\nThe most important attribute of a job is its build plan, configured as job.plan. This determines the sequence of Steps to execute in any builds of the job.",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/job"
+      }
     }
   },
   "definitions": {
@@ -107,100 +122,116 @@
         }
       }
     },
-    "jobs": {
-      "title": "Concourse CI pipeline jobs",
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/job"
-      }
-    },
     "resource_type": {
-      "title": "Concourse CI pipeline resource types",
-      "type": "array",
-      "items": {
-        "type": "object",
-        "required": [
-          "name",
-          "type"
-        ],
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "type": {
-            "type": "string",
-            "enum": [
-              "docker-image",
-              "registry-image"
-            ]
-          },
-          "source": {
-            "type": "object"
-          },
-          "privileged": {
-            "type": "boolean",
-            "default": false
-          },
-          "params": {
-            "type": "object"
-          },
-          "check_every": {
-            "type": "string"
-          },
-          "tags": {
-            "type": "array"
-          },
-          "unique_version_history": {
-            "type": "boolean"
-          },
-          "defaults": {
-            "type": "array"
-          }
-        }
-      }
-    },
-    "resource": {
-      "title": "Concourse CI pipeline resources",
-      "type": "array",
+      "type": "object",
       "required": [
         "name",
         "type"
       ],
-      "items": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "type": {
-            "type": "string"
-          },
-          "source": {
-            "type": "object"
-          },
-          "old_name": {
-            "type": "string"
-          },
-          "icon": {
-            "type": "string"
-          },
-          "version": {
-            "type": "string"
-          },
-          "check_every": {
-            "type": "string"
-          },
-          "tags": {
-            "type": "array"
-          },
-          "public": {
-            "type": "boolean"
-          },
-          "webhook_token": {
+      "properties": {
+        "name": {
+          "$ref": "#/definitions/identifier",
+          "description": "The name of the resource type."
+        },
+        "type": {
+          "$ref": "#/definitions/identifier",
+          "description": "The type of the resource used to provide the resource type's container image.",
+          "enum": [
+            "docker-image",
+            "registry-image"
+          ]
+        },
+        "source": {
+          "$ref": "#/definitions/config",
+          "description": "The configuration for the resource type's resource. This varies by resource type, and is a black box to Concourse; it is blindly passed to the resource at runtime."
+        },
+        "privileged": {
+          "type": "boolean",
+          "description": "If set to true, the resource's containers will be run with full capabilities, as determined by the worker backend the task runs on.",
+          "default": false
+        },
+        "params": {
+          "$ref": "#/definitions/config",
+          "description": "Arbitrary config to pass when running the get to fetch the resource type's image."
+        },
+        "check_every": {
+          "type": "string",
+          "description": "The interval on which to check for new versions of the resource type. Acceptable interval options are defined by the time.ParseDuration function.",
+          "default": "1m"
+        },
+        "tags": {
+          "type": "array",
+          "description": "A list of tags to determine which workers the checks will be performed on. You'll want to specify this if the source is internal to a worker's network, for example. See also step.tags.",
+          "items": {
             "type": "string"
           }
+        },
+        "unique_version_history": {
+          "type": "boolean",
+          "description": "Only relevant when Global Resources is enabled. When set to true, resources using this resource type will have a version history that is unique to the resource, rather than sharing a global version history.",
+          "default": false
+        },
+        "defaults": {
+          "$ref": "#/definitions/config",
+          "description": "The default configuration for the resource type. This varies by resource type, and is a black box to Concourse; it is merged with (duplicate fields are overwritten by) resource.source and passed to the resource at runtime."
         }
-      }
+      },
+      "additionalProperties": false
+    },
+    "resource": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "$ref": "#/definitions/identifier",
+          "description": "The name of the resource. This should be short and simple. This name will be referenced by build plans of jobs in the pipeline."
+        },
+        "type": {
+          "$ref": "#/definitions/identifier",
+          "description": "The resource type implementing the resource."
+        },
+        "source": {
+          "$ref": "#/definitions/config",
+          "description": "The configuration for the resource. This varies by resource type, and is a black box to Concourse; it is blindly passed to the resource at runtime."
+        },
+        "old_name": {
+          "$ref": "#/definitions/identifier",
+          "description": "The old name of the resource. If configured, the history of the old resource will be inherited to the new one. Once the pipeline is set, this field can be removed as the history has been transferred."
+        },
+        "icon": {
+          "type": "string",
+          "description": "The name of a Material Design icon to show next to the resource name in the web UI. For example, github."
+        },
+        "version": {
+          "$ref": "#/definitions/version",
+          "description": "A version to pin the resource to across the pipeline. This has the same effect as setting get step version on every get step referencing the resource."
+        },
+        "check_every": {
+          "type": "string",
+          "description": "The interval on which to check for new versions of the resource. Acceptable interval options are defined by the time.ParseDuration function.",
+          "default": "1m"
+        },
+        "tags": {
+          "type": "array",
+          "description": "A list of tags to determine which workers the checks will be performed on. You'll want to specify this if the source is internal to a worker's network, for example. See also step.tags.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "public": {
+          "type": "boolean",
+          "description": "If set to true, the metadata for each version of the resource will be viewable by unauthenticated users (assuming the pipeline has been exposed).",
+          "default": false
+        },
+        "webhook_token": {
+          "type": "string",
+          "description": "If specified, web hooks can be sent to trigger an immediate check of the resource, specifying this value as a primitive form of authentication via query params."
+        }
+      },
+      "required": [
+        "name",
+        "type"
+      ],
+      "additionalProperties": false
     },
     "step": {
       "type": "object",
@@ -261,8 +292,8 @@
     "do-step": {
       "properties": {
         "do": {
-          "type": "object",
-          "$ref": "#/definitions/step"
+          "$ref": "#/definitions/step",
+          "description": "Simply performs the given steps serially, with the same semantics as if they were at the top level step listing."
         }
       },
       "additionalProperties": false,
@@ -273,11 +304,12 @@
     "get-step": {
       "properties": {
         "get": {
-          "$ref": "#/definitions/identifier"
+          "$ref": "#/definitions/identifier",
+          "description": "Fetches a version of a resource."
         },
         "params": {
-          "description": "Arbitrary configuration to pass to the resource. Refer to the resource type's documentation to see what it supports.",
-          "$ref": "#/definitions/config"
+          "$ref": "#/definitions/config",
+          "description": "Arbitrary configuration to pass to the resource. Refer to the resource type's documentation to see what it supports."
         },
         "passed": {
           "type": "array",
@@ -289,18 +321,23 @@
           ]
         },
         "resource": {
-          "type": "string"
+          "type": "string",
+          "description": "The resource to fetch, as configured in pipeline.resources."
         },
         "trigger": {
-          "type": "boolean"
+          "type": "boolean",
+          "description": "If set to true, new builds of the job will be automatically created when a new version for this input becomes available.",
+          "default": false
         },
         "version": {
-          "type": "string"
+          "type": "string",
+          "description": "The version of the resource to fetch."
         }
       },
       "required": [
         "get"
-      ]
+      ],
+      "additionalProperties": false
     },
     "put-step": {
       "properties": {
@@ -309,7 +346,8 @@
           "$ref": "#/definitions/config"
         },
         "put": {
-          "$ref": "#/definitions/identifier"
+          "$ref": "#/definitions/identifier",
+          "description": "Pushes to the given resource."
         },
         "resource": {
           "type": "string",
@@ -341,27 +379,33 @@
       },
       "required": [
         "put"
-      ]
+      ],
+      "additionalProperties": false
     },
     "set_pipeline-step": {
       "properties": {
         "set_pipeline": {
-          "$ref": "#/definitions/identifier"
+          "$ref": "#/definitions/identifier",
+          "description": "Configures a pipeline.\n\nThe identifier specifies the name of the pipeline to configure. Unless set_pipeline step team is set, it will be configured within the current team and be created unpaused. If set to self, the current pipeline will update its own config."
         },
         "file": {
-          "$ref": "#/definitions/file-path"
+          "$ref": "#/definitions/file-path",
+          "description": "The path to the pipeline's configuration file."
         },
         "vars": {
-          "type": "object"
+          "type": "object",
+          "description": "A map of template variables to pass to the pipeline config."
         },
         "var_files": {
           "type": "array",
+          "description": "A list of paths to .yml files that will be passed to the pipeline config in the same manner as the --load-vars-from flag to fly set-pipeline. This means that if a variable appears in multiple files, the value from a file that is passed later in the list will override the values from files earlier in the list.",
           "items": {
-            "type": "string"
+            "$ref": "#/definitions/file-path"
           }
         },
         "team": {
-          "type": "string"
+          "$ref": "#/definitions/identifier",
+          "description": "By default, the set_pipeline step sets the pipeline for the same team that is running the build.\n\nThe team attribute can be used to specify another team."
         }
       },
       "additionalProperties": false,
@@ -373,31 +417,41 @@
     "task-step": {
       "properties": {
         "task": {
-          "$ref": "#/definitions/identifier"
+          "$ref": "#/definitions/identifier",
+          "description": "Executes a task."
         },
         "config": {
-          "$ref": "#/definitions/task-config"
+          "$ref": "#/definitions/task-config",
+          "description": "The task config to execute."
         },
         "file": {
-          "$ref": "#/definitions/file-path"
+          "$ref": "#/definitions/file-path",
+          "description": "A dynamic alternative to task step config.\n\nfile points at a .yml file containing the task config, which allows this to be tracked with your resources."
         },
         "image": {
-          "$ref": "#/definitions/identifier"
+          "$ref": "#/definitions/identifier",
+          "description": "Specifies an artifact source containing an image to use for the task. This overrides any task.image_resource configuration present in the task configuration."
         },
         "privileged": {
-          "type": "boolean"
+          "type": "boolean",
+          "description": "If set to true, the task will run with escalated capabilities available on the task's platform.",
+          "default": false
         },
         "vars": {
-          "type": "object"
+          "type": "object",
+          "description": "A map of template variables to pass to an external task. Not to be confused with task.params, which provides environment variables to the task.\n\nThis is to be used with external tasks defined in task step file."
         },
         "params": {
-          "type": "object"
+          "$ref": "#/definitions/env-vars",
+          "description": "A map of task environment variable parameters to set, overriding those configured in the task's config or file."
         },
         "input_mapping": {
-          "type": "object"
+          "type": "object",
+          "description": "A map from task input names to concrete names in the build plan. This allows a task with generic input names to be used multiple times in the same plan, mapping its inputs to specific resources within the plan."
         },
         "output_mapping": {
-          "type": "object"
+          "type": "object",
+          "description": "A map from task output names to concrete names to register in the build plan. This allows a task with generic output names to be used multiple times in the same plan."
         }
       },
       "additionalProperties": false,
@@ -408,21 +462,28 @@
     "try-step": {
       "properties": {
         "try": {
-          "type": "object",
-          "$ref": "#/definitions/step"
+          "$ref": "#/definitions/step",
+          "description": "Performs the given step, ignoring any failure and masking it with success.\n\nThis can be used when you want to perform some side-effect, but you don't really want the whole build to fail if it doesn't work."
         }
-      }
+      },
+      "additionalProperties": false,
+      "required": [
+        "try"
+      ]
     },
     "load_var-step": {
       "properties": {
         "load_var": {
-          "type": "string"
+          "$ref": "#/definitions/identifier",
+          "description": "Load the value for a var at runtime, making it available to subsequent steps as a build-local var named after the given identifier."
         },
         "file": {
-          "type": "string"
+          "$ref": "#/definitions/file-path",
+          "description": "The path to a file whose content shall be read and used as the var's value."
         },
         "format": {
           "type": "string",
+          "description": "The format of the file's content.\n\nIf unset, Concourse will try to detect the format from the file extension. If the file format cannot be determined, Concourse will fallback to trim.",
           "enum": [
             "json",
             "yaml",
@@ -432,7 +493,8 @@
           ]
         },
         "reveal": {
-          "type": "boolean"
+          "type": "boolean",
+          "description": "If set to true, allow the var's content to be printed in the build output even with secret redaction enabled."
         }
       },
       "additionalProperties": false,
@@ -445,6 +507,7 @@
       "properties": {
         "in_parallel": {
           "type": "array",
+          "description": "Performs the given steps in parallel.\n\nIf any sub-steps (or task) in a parallel result in a failure or error, the parallel step as a whole is considered to have failed or errored.",
           "items": {
             "$ref": "#/definitions/step"
           }
@@ -458,31 +521,39 @@
     "default-step": {
       "properties": {
         "timeout": {
-          "type": "string"
+          "type": "string",
+          "description": "The amount of time to limit the step's execution to, e.g. 30m for 30 minutes."
         },
         "attempts": {
-          "type": "number"
+          "type": "number",
+          "description": "The total number of times a step should be tried before it should fail"
         },
         "tags": {
           "type": "array",
+          "description": "The tags by which to match workers.",
           "items": {
             "type": "string"
           }
         },
         "on_success": {
-          "$ref": "#/definitions/step"
+          "$ref": "#/definitions/step",
+          "description": "A hook step to execute if the parent step succeeds."
         },
         "on_failure": {
-          "$ref": "#/definitions/step"
+          "$ref": "#/definitions/step",
+          "description": "A hook step to execute if the parent step fails.\n\nThis does not \"recover\" the failure - it will still fail even if the hook step succeeds."
         },
         "on_abort": {
-          "$ref": "#/definitions/step"
+          "$ref": "#/definitions/step",
+          "description": "A hook step to execute if the build is aborted and the parent step is terminated."
         },
         "on_error": {
-          "$ref": "#/definitions/step"
+          "$ref": "#/definitions/step",
+          "description": "A hook step to execute after the parent step if the parent step terminates abnormally in any way other than those handled by the step.on_abort or step.on_failure. This covers scenarios as broad as configuration mistakes, temporary network issues with the workers, or running longer than a step.timeout."
         },
         "ensure": {
-          "$ref": "#/definitions/step"
+          "$ref": "#/definitions/step",
+          "description": "A hook step to execute after the parent step regardless of whether the parent step succeeds, fails, or errors. The step will also be executed if the build was aborted and its parent step was interrupted.\n\nIf the parent step succeeds and the ensured step fails, the overall step fails."
         }
       }
     },

@@ -2,7 +2,7 @@
 
 ## [Unreleased]
 ### Added
-
+- new baseline for compatibility is 2020.2
 ### Changed
 
 ### Deprecated

@@ -1,8 +1,8 @@
 # ConcourseCI Support for IntelliJ
 
 ![Build](https://github.com/cedricziel/idea-concourse/workflows/Build/badge.svg)
-[![Version](https://img.shields.io/jetbrains/plugin/v/com.github.cedricziel.ideaconcourse.svg)](https://plugins.jetbrains.com/plugin/15565-concourse-ci-support-for-intellij)
-[![Downloads](https://img.shields.io/jetbrains/plugin/d/com.github.cedricziel.ideaconcourse.svg)](https://plugins.jetbrains.com/plugin/15565-concourse-ci-support-for-intellij)
+[![Version](https://img.shields.io/jetbrains/plugin/v/15565-concourse-ci-support.svg)](https://plugins.jetbrains.com/plugin/15565-concourse-ci-support)
+[![Downloads](https://img.shields.io/jetbrains/plugin/d/15565-concourse-ci-support.svg)](https://plugins.jetbrains.com/plugin/15565-concourse-ci-support)
 
 ## What does it do
 

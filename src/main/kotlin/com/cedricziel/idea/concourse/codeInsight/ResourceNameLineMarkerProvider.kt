@@ -14,7 +14,7 @@ import org.jetbrains.yaml.psi.YAMLScalar
 class ResourceNameLineMarkerProvider : RelatedItemLineMarkerProvider() {
     override fun collectNavigationMarkers(
         element: PsiElement,
-        result: MutableCollection<in RelatedItemLineMarkerInfo<PsiElement>>
+        result: MutableCollection<in RelatedItemLineMarkerInfo<*>>
     ) {
         if (!ConcourseUtils.isPipelineFile(element.containingFile) || !ConcoursePatterns.resourceStepValue().accepts(element)) {
             return

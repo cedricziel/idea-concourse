@@ -3,6 +3,7 @@
 ## [Unreleased]
 ### Added
 - new baseline for compatibility is 2020.2
+- migrate line marker providers to new parent signature
 ### Changed
 
 ### Deprecated

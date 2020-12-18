@@ -2,6 +2,18 @@
 
 ## [Unreleased]
 ### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+## [0.0.5]
+### Added
 - new baseline for compatibility is 2020.2
 - migrate line marker providers to new parent signature
 ### Changed

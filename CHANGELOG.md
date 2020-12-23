@@ -5,6 +5,7 @@
 - add `in_parallel` schema
 ### Changed
 - Do not verify on 201 anymore
+- Build with 202 to avoid compatibility issues
 ### Deprecated
 
 ### Removed

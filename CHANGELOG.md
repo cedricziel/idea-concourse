@@ -2,7 +2,7 @@
 
 ## [Unreleased]
 ### Added
-
+- add `in_parallel` schema
 ### Changed
 - Do not verify on 201 anymore
 ### Deprecated

@@ -506,16 +506,49 @@
     "in_parallel-step": {
       "properties": {
         "in_parallel": {
-          "type": "array",
-          "description": "Performs the given steps in parallel.\n\nIf any sub-steps (or task) in a parallel result in a failure or error, the parallel step as a whole is considered to have failed or errored.",
-          "items": {
-            "$ref": "#/definitions/step"
-          }
+          "oneOf": [
+            {
+              "type": "array",
+              "description": "Performs the given steps in parallel.\n\nIf any sub-steps (or task) in a parallel result in a failure or error, the parallel step as a whole is considered to have failed or errored.",
+              "items": {
+                "$ref": "#/definitions/step"
+              },
+              "minItems": 1
+            },
+            {
+              "$ref": "#/definitions/in_parallel_config"
+            }
+          ]
         }
       },
       "additionalProperties": false,
       "required": [
         "in_parallel"
+      ]
+    },
+    "in_parallel_config": {
+      "properties": {
+        "steps": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "description": "Performs the given steps in parallel.\n\nIf any sub-steps (or task) in a parallel result in a failure or error, the parallel step as a whole is considered to have failed or errored.",
+            "$ref": "#/definitions/step"
+          }
+        },
+        "limit": {
+          "type": "number",
+          "description": "A sempahore which limits the parallelism when executing the steps in a in_parallel step. When set, the number of running steps will not exceed the limit."
+        },
+        "fail_fast": {
+          "type": "boolean",
+          "description": "When enabled the parallel step will fail fast by returning as soon as any sub-step fails. This means that running steps will be interrupted and pending steps will no longer be scheduled.",
+          "default": false
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "steps"
       ]
     },
     "default-step": {

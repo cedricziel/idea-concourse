@@ -2,6 +2,18 @@
 
 ## [Unreleased]
 ### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+## [0.0.6]
+### Added
 - add `in_parallel` schema
 ### Changed
 - Do not verify on 201 anymore

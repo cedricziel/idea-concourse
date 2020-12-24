@@ -2,6 +2,7 @@
 
 ## [Unreleased]
 ### Added
+- Create distinct file types to detect pipeline and task files
 
 ### Changed
 

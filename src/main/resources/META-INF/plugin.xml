@@ -7,6 +7,15 @@
     <depends>org.jetbrains.plugins.yaml</depends>
 
     <extensions defaultExtensionNs="com.intellij">
+        <fileType name="com.cedricziel.idea.concourse.lang.ConcoursePipelineFileType"/>
+        <fileTypeFactory implementation="com.cedricziel.idea.concourse.lang.ConcoursePipelineFileTypeFactory"/>
+        <fileType name="com.cedricziel.idea.concourse.lang.ConcourseTaskFileType"/>
+        <fileTypeFactory implementation="com.cedricziel.idea.concourse.lang.ConcourseTaskFileTypeFactory"/>
+
+        <!--
+        <lang.substitutor language="yaml" implementationClass="com.cedricziel.idea.concourse.lang.ConcourseYAMLLanguageSubstitutor"/>
+        -->
+
         <psi.referenceContributor language="yaml" implementation="com.cedricziel.idea.concourse.psi.ConcourseReferenceContributor"/>
 
         <localInspection language="yaml"

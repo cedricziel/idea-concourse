@@ -12,9 +12,8 @@
         <fileType name="ConcourseTask" implementationClass="com.cedricziel.idea.concourse.lang.ConcourseTaskFileType"/>
         <fileTypeFactory implementation="com.cedricziel.idea.concourse.lang.ConcourseTaskFileTypeFactory"/>
 
-        <!--
-        <lang.substitutor language="yaml" implementationClass="com.cedricziel.idea.concourse.lang.ConcourseYAMLLanguageSubstitutor"/>
-        -->
+        <internalFileTemplate name="Concourse CI Pipeline"/>
+        <internalFileTemplate name="Concourse CI Task"/>
 
         <psi.referenceContributor language="yaml" implementation="com.cedricziel.idea.concourse.psi.ConcourseReferenceContributor"/>
 
@@ -48,4 +47,15 @@
     <extensions defaultExtensionNs="JavaScript.JsonSchema">
         <ProviderFactory implementation="com.cedricziel.idea.concourse.ConcoursePipelineSchemaProvider"/>
     </extensions>
+    <actions>
+        <action id="com.cedricziel.idea.concourse.CreatePipelineFromTemplateAction"
+                class="com.cedricziel.idea.concourse.CreatePipelineFromTemplateAction"
+                text="CreatePipelineFromTemplateAction">
+            <add-to-group group-id="NewGroup"/>
+        </action>
+        <action id="com.cedricziel.idea.concourse.CreateTaskFromTemplateAction"
+                class="com.cedricziel.idea.concourse.CreateTaskFromTemplateAction" text="Concourse CI Task">
+            <add-to-group group-id="NewGroup"/>
+        </action>
+    </actions>
 </idea-plugin>

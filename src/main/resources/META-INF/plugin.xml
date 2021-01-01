@@ -7,9 +7,9 @@
     <depends>org.jetbrains.plugins.yaml</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <fileType name="com.cedricziel.idea.concourse.lang.ConcoursePipelineFileType"/>
+        <fileType name="ConcoursePipeline" implementationClass="com.cedricziel.idea.concourse.lang.ConcoursePipelineFileType"/>
         <fileTypeFactory implementation="com.cedricziel.idea.concourse.lang.ConcoursePipelineFileTypeFactory"/>
-        <fileType name="com.cedricziel.idea.concourse.lang.ConcourseTaskFileType"/>
+        <fileType name="ConcourseTask" implementationClass="com.cedricziel.idea.concourse.lang.ConcourseTaskFileType"/>
         <fileTypeFactory implementation="com.cedricziel.idea.concourse.lang.ConcourseTaskFileTypeFactory"/>
 
         <!--

@@ -1,0 +1,31 @@
+---
+# see https://concourse-ci.org/tasks.html
+platform: linux
+
+image_resource:
+  type: registry-image
+  source:
+    repository: golang
+    tag: '1.6'
+
+params:
+  SOME_PARAM: some-default-value
+
+inputs:
+  - name: some-input
+  - name: some-input-with-custom-path
+    path: some/custom/path
+
+outputs:
+  - name: some-output
+
+run:
+  path: sh
+  args:
+    - -exc
+    - |
+        whoami
+        env
+        go version
+        find .
+        touch some-output/my-built-artifact

@@ -1,5 +1,7 @@
 package com.cedricziel.idea.concourse
 
+import com.cedricziel.idea.concourse.lang.ConcoursePipelineFileType
+import com.cedricziel.idea.concourse.lang.ConcourseTaskFileType
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VfsUtil
 import com.intellij.openapi.vfs.VirtualFile
@@ -16,7 +18,7 @@ class ConcoursePipelineSchemaProvider : JsonSchemaProviderFactory {
 
     object ConcoursePipelineSchemaProvider : JsonSchemaFileProvider {
         override fun isAvailable(file: VirtualFile): Boolean {
-            return ConcourseUtils.isPipelineFile(file)
+            return file.fileType is ConcoursePipelineFileType
         }
 
         override fun getName(): String {
@@ -36,7 +38,7 @@ class ConcoursePipelineSchemaProvider : JsonSchemaProviderFactory {
 
     object ConcourseTaskSchemaProvider : JsonSchemaFileProvider {
         override fun isAvailable(file: VirtualFile): Boolean {
-            return ConcourseUtils.isTaskFile(file)
+            return file.fileType is ConcourseTaskFileType
         }
 
         override fun getName(): String {

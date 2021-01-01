@@ -7,6 +7,14 @@
     <depends>org.jetbrains.plugins.yaml</depends>
 
     <extensions defaultExtensionNs="com.intellij">
+        <fileType name="ConcoursePipeline" implementationClass="com.cedricziel.idea.concourse.lang.ConcoursePipelineFileType"/>
+        <fileTypeFactory implementation="com.cedricziel.idea.concourse.lang.ConcoursePipelineFileTypeFactory"/>
+        <fileType name="ConcourseTask" implementationClass="com.cedricziel.idea.concourse.lang.ConcourseTaskFileType"/>
+        <fileTypeFactory implementation="com.cedricziel.idea.concourse.lang.ConcourseTaskFileTypeFactory"/>
+
+        <internalFileTemplate name="Concourse CI Pipeline"/>
+        <internalFileTemplate name="Concourse CI Task"/>
+
         <psi.referenceContributor language="yaml" implementation="com.cedricziel.idea.concourse.psi.ConcourseReferenceContributor"/>
 
         <localInspection language="yaml"
@@ -39,4 +47,15 @@
     <extensions defaultExtensionNs="JavaScript.JsonSchema">
         <ProviderFactory implementation="com.cedricziel.idea.concourse.ConcoursePipelineSchemaProvider"/>
     </extensions>
+    <actions>
+        <action id="com.cedricziel.idea.concourse.CreatePipelineFromTemplateAction"
+                class="com.cedricziel.idea.concourse.CreatePipelineFromTemplateAction"
+                text="CreatePipelineFromTemplateAction">
+            <add-to-group group-id="NewGroup"/>
+        </action>
+        <action id="com.cedricziel.idea.concourse.CreateTaskFromTemplateAction"
+                class="com.cedricziel.idea.concourse.CreateTaskFromTemplateAction" text="Concourse CI Task">
+            <add-to-group group-id="NewGroup"/>
+        </action>
+    </actions>
 </idea-plugin>

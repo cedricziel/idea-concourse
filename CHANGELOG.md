@@ -2,6 +2,18 @@
 
 ## [Unreleased]
 ### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+## [0.0.7]
+### Added
 - Create distinct file types to detect pipeline and task files
 - Add new file actions and templates
 

@@ -2,6 +2,7 @@
 
 ## [Unreleased]
 ### Added
+- Add support for top level keys `groups` and `display_config
 
 ### Changed
 

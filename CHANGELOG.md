@@ -2,6 +2,18 @@
 
 ## [Unreleased]
 ### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+## [0.0.8]
+### Added
 - Add support for top level keys `groups` and `display_config
 
 ### Changed

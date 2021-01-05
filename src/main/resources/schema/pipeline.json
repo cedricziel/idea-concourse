@@ -3,6 +3,9 @@
   "title": "Concourse CI Pipeline",
   "type": "object",
   "properties": {
+    "display": {
+      "$ref": "#/definitions/display_config"
+    },
     "resource_types": {
       "title": "Concourse CI pipeline resource types",
       "description": "Each resource in a pipeline has a type. The resource's type determines what versions are detected, the bits that are fetched when the resource's get step runs, and the side effect that occurs when the resource's put step runs.\n\nConcourse comes with a few \"core\" resource types to cover common use cases like git and s3 - the rest are developed and supported by the Concourse community. An exhaustive list of all resource types is available in the Resource Types catalog.",
@@ -19,6 +22,14 @@
         "$ref": "#/definitions/resource"
       }
     },
+    "groups": {
+      "title": "A list of job groups to use for organizing jobs in the web UI.",
+      "description": "Groups have no functional effect on your pipeline. They are purely for making it easier to grok large pipelines in the web UI.\n\nNote: once you have added groups to your pipeline, all jobs must be in a group.",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/group_config"
+      }
+    },
     "jobs": {
       "title": "Concourse CI pipeline jobs",
       "description": "Jobs determine the actions of your pipeline. They determine how resources progress through it, and how the pipeline is visualized.\n\nThe most important attribute of a job is its build plan, configured as job.plan. This determines the sequence of Steps to execute in any builds of the job.",
@@ -29,6 +40,33 @@
     }
   },
   "definitions": {
+    "display_config": {
+      "title": "Visual configurations for personalizing your pipeline.",
+      "type": "object",
+      "properties": {
+        "background_image": {
+          "description": "Allow users to specify a custom background image which is put at 30% opacity, grayscaled and blended into existing background. Must be an http, https, or relative URL.",
+          "type": "string"
+        }
+      }
+    },
+    "group_config": {
+      "properties": {
+        "name": {
+          "title": "A unique name for the group.",
+          "description": "This should be short and simple as it will be used as the tab name for navigation.",
+          "$ref": "#/definitions/identifier"
+        },
+        "jobs": {
+          "title": "A list of jobs that should appear in this group",
+          "description": "A job may appear in multiple groups. Neighbours of jobs in the current group will also appear on the same page in order to give context of the location of the group in the pipeline.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/identifier"
+          }
+        }
+      }
+    },
     "job": {
       "type": "object",
       "required": [

@@ -2,6 +2,7 @@
 
 ## [Unreleased]
 ### Added
+- Add test case for json schema validation 
 
 ### Changed
 

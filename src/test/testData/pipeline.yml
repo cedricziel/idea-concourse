@@ -13,13 +13,21 @@ resources:
     type: github-status
     icon: github
 
-plan:
-  - name: x86-8.0
+jobs:
+  - name: foo
     max_in_flight: 1
+    on_success:
+      do:
+        - put: repo-status
+          params:
+            path: source-git
+            statuses:
+              - state: pending
+                description: Building on concourse
+                context: x86-8.0
     plan:
       - get: source-git
         trigger: true
-        passed: [ self-update ]
       - put: repo-status
         params:
           path: source-git

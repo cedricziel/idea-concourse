@@ -2,6 +2,18 @@
 
 ## [Unreleased]
 ### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+## [0.0.9]
+### Added
 - Add test case for json schema validation 
 - Modify do-step schema to be type array
 

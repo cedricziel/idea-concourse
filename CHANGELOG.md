@@ -3,6 +3,7 @@
 ## [Unreleased]
 ### Added
 - Add test case for json schema validation 
+- Modify do-step schema to be type array
 
 ### Changed
 

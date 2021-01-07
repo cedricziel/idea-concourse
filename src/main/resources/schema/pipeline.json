@@ -330,7 +330,10 @@
     "do-step": {
       "properties": {
         "do": {
-          "$ref": "#/definitions/step",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/step"
+          },
           "description": "Simply performs the given steps serially, with the same semantics as if they were at the top level step listing."
         }
       },

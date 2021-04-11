@@ -9,6 +9,7 @@
 ### Deprecated
 
 ### Removed
+- Remove support for 203 platform
 
 ### Fixed
 

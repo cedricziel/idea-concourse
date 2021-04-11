@@ -6,6 +6,7 @@
 
 ### Changed
 - Update gradle-intellij plugin to 0.7.2
+- Use 2020.3.3 for plugin verifier
 
 ### Deprecated
 

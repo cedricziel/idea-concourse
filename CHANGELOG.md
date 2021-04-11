@@ -2,12 +2,16 @@
 
 ## [Unreleased]
 ### Added
+- Add support for IDEA platform 211
 
 ### Changed
+- Update gradle-intellij plugin to 0.7.2
+- Use 2020.3.3 for plugin verifier
 
 ### Deprecated
 
 ### Removed
+- Remove support for 203 platform
 
 ### Fixed
 

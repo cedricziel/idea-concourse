@@ -2,6 +2,7 @@
 
 ## [Unreleased]
 ### Added
+- Add suport for IDEA platform 211
 
 ### Changed
 

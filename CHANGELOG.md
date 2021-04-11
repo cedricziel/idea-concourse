@@ -2,9 +2,10 @@
 
 ## [Unreleased]
 ### Added
-- Add suport for IDEA platform 211
+- Add support for IDEA platform 211
 
 ### Changed
+- Update gradle-intellij plugin to 0.7.2
 
 ### Deprecated
 

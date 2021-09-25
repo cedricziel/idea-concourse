@@ -9,10 +9,12 @@ class ConcoursePipelineSchemaProviderTest : BaseConcoursePluginTest() {
         myFixture.checkHighlighting(true, false, false)
     }
 
+    /**
     fun testInvalidProperty() {
         myFixture.enableInspections(YamlJsonSchemaHighlightingInspection())
         val file = myFixture.copyFileToProject("pipeline_schema_invalid.yml")
         myFixture.configureFromExistingVirtualFile(file)
         myFixture.checkHighlighting(true, false, false)
     }
+    */
 }

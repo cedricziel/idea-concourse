@@ -2,9 +2,11 @@
 
 ## [Unreleased]
 ### Added
-
+- Add support for IDEA platform 212
 ### Changed
-
+- Upgrade `io.gitlab.arturbosch.detekt` to 1.18.1
+- Upgrade `org.jlleitschuh.gradle.ktlint` to 10.2.0
+- Fix Ktlint issue
 ### Deprecated
 
 ### Removed

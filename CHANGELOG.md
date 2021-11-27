@@ -6,6 +6,7 @@
 ### Changed
 - Migrate getResource usage to reference current classloader
 - Migrate getIcon usage to reference current classloader
+- Override getDisplayName for custom file types
 ### Deprecated
 
 ### Removed

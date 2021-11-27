@@ -4,7 +4,7 @@
 ### Added
 - Add support for IDEA platform 212
 ### Changed
-
+- Upgrade `io.gitlab.arturbosch.detekt` to 1.18.1
 ### Deprecated
 
 ### Removed

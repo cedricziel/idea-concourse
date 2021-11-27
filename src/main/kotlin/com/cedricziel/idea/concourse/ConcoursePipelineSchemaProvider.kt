@@ -26,7 +26,7 @@ class ConcoursePipelineSchemaProvider : JsonSchemaProviderFactory {
         }
 
         override fun getSchemaFile(): VirtualFile? {
-            val url: URL = ResourceUtil.getResource(javaClass, "schema", "pipeline.json")
+            val url: URL = ResourceUtil.getResource(javaClass.classLoader, "schema", "pipeline.json")
 
             return VfsUtil.findFileByURL(url)
         }
@@ -46,7 +46,7 @@ class ConcoursePipelineSchemaProvider : JsonSchemaProviderFactory {
         }
 
         override fun getSchemaFile(): VirtualFile? {
-            val url: URL = ResourceUtil.getResource(javaClass, "schema", "task.json")
+            val url: URL = ResourceUtil.getResource(javaClass.classLoader, "schema", "task.json")
 
             return VfsUtil.findFileByURL(url)
         }

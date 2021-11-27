@@ -41,4 +41,8 @@ object ConcourseTaskFileType : LanguageFileType(YAMLLanguage.INSTANCE, true) {
     override fun getIcon(): Icon {
         return ConcourseIcons.CONCOURSE_TASK
     }
+
+    override fun getDisplayName(): String {
+        return "ConcourseCI Pipeline YAML"
+    }
 }

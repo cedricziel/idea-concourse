@@ -41,4 +41,8 @@ object ConcoursePipelineFileType : LanguageFileType(YAMLLanguage.INSTANCE, true)
     override fun getIcon(): Icon {
         return ConcourseIcons.CONCOURSE
     }
+
+    override fun getDisplayName(): String {
+        return "ConcourseCI Pipeline YAML"
+    }
 }

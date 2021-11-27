@@ -38,6 +38,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
+      # Check out current repository
+      - name: Fetch Sources
+        uses: actions/checkout@v2
+
       # Setup Java 11 environment for the next steps
       - name: Setup Java
         uses: actions/setup-java@v2
@@ -45,10 +49,6 @@ jobs:
           distribution: zulu
           java-version: 11
           cache: gradle
-
-      # Check out current repository
-      - name: Fetch Sources
-        uses: actions/checkout@v2
 
       # Cache Gradle dependencies
       - name: Setup Gradle Dependencies Cache
@@ -85,6 +85,10 @@ jobs:
       artifact: ${{ steps.properties.outputs.artifact }}
     steps:
 
+      # Check out current repository
+      - name: Fetch Sources
+        uses: actions/checkout@v2
+
       # Setup Java 11 environment for the next steps
       - name: Setup Java
         uses: actions/setup-java@v2
@@ -92,10 +96,6 @@ jobs:
           distribution: zulu
           java-version: 11
           cache: gradle
-
-      # Check out current repository
-      - name: Fetch Sources
-        uses: actions/checkout@v2
 
       # Cache Gradle Dependencies
       - name: Setup Gradle Dependencies Cache
@@ -149,6 +149,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
+      # Check out current repository
+      - name: Fetch Sources
+        uses: actions/checkout@v2
+
       # Setup Java 11 environment for the next steps
       - name: Setup Java
         uses: actions/setup-java@v2
@@ -156,10 +160,6 @@ jobs:
           distribution: zulu
           java-version: 11
           cache: gradle
-
-      # Check out current repository
-      - name: Fetch Sources
-        uses: actions/checkout@v2
 
       # Cache Gradle Dependencies
       - name: Setup Gradle Dependencies Cache

@@ -4,9 +4,8 @@
 ### Added
 
 ### Changed
-- Upgrade `io.gitlab.arturbosch.detekt` to 1.18.1
-- Upgrade `org.jlleitschuh.gradle.ktlint` to 10.2.0
-- Fix Ktlint issue
+- Migrate getResource usage to reference current classloader
+- Migrate getIcon usage to reference current classloader
 ### Deprecated
 
 ### Removed
@@ -20,7 +19,9 @@
 - Add support for IDEA platform 212
 
 ### Changed
-- Migrate getResource usage to reference current classloader
+- Upgrade `io.gitlab.arturbosch.detekt` to 1.18.1
+- Upgrade `org.jlleitschuh.gradle.ktlint` to 10.2.0
+- Fix Ktlint issue
 ### Deprecated
 
 ### Removed

@@ -2,7 +2,7 @@
 
 ## [Unreleased]
 ### Added
-
+- Support platform version 213
 ### Changed
 - Migrate getResource usage to reference current classloader
 - Migrate getIcon usage to reference current classloader

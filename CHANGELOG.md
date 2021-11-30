@@ -2,11 +2,26 @@
 
 ## [Unreleased]
 ### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+## [0.0.12]
+### Added
 - Support platform version 213
+
 ### Changed
 - Migrate getResource usage to reference current classloader
 - Migrate getIcon usage to reference current classloader
 - Override getDisplayName for custom file types
+
 ### Deprecated
 
 ### Removed
@@ -23,13 +38,6 @@
 - Upgrade `io.gitlab.arturbosch.detekt` to 1.18.1
 - Upgrade `org.jlleitschuh.gradle.ktlint` to 10.2.0
 - Fix Ktlint issue
-### Deprecated
-
-### Removed
-
-### Fixed
-
-### Security
 
 ## [0.0.10]
 ### Added

@@ -1,10 +1,10 @@
 package com.cedricziel.idea.concourse.codeInspection
 
-import com.cedricziel.idea.concourse.BaseConcoursePluginTest
+import com.intellij.testFramework.fixtures.BasePlatformTestCase
 
-class ResourceTypeNameInspectionTest : BaseConcoursePluginTest() {
+class ResourceTypeNameInspectionTest : BasePlatformTestCase() {
     override fun getTestDataPath(): String {
-        return super.getTestDataPath() + "/codeInspection"
+        return "src/test/testData/codeInspection"
     }
 
     fun testInvalidHighlighting() {

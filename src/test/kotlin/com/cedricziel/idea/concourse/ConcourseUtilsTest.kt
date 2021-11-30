@@ -1,9 +1,14 @@
 package com.cedricziel.idea.concourse
 
 import com.intellij.psi.PsiManager
+import com.intellij.testFramework.fixtures.BasePlatformTestCase
 import junit.framework.TestCase
 
-class ConcourseUtilsTest : BaseConcoursePluginTest() {
+class ConcourseUtilsTest : BasePlatformTestCase() {
+    override fun getTestDataPath(): String {
+        return "src/test/testData"
+    }
+
     fun testCanFindOutputs() {
         val file = myFixture.copyFileToProject("pipeline.yml", "pipeline.yml")
         val psiFile = PsiManager.getInstance(myFixture.project).findFile(file)

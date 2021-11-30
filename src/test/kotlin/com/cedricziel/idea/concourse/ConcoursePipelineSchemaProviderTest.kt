@@ -1,8 +1,13 @@
 package com.cedricziel.idea.concourse
 
+import com.intellij.testFramework.fixtures.BasePlatformTestCase
 import org.jetbrains.yaml.schema.YamlJsonSchemaHighlightingInspection
 
-class ConcoursePipelineSchemaProviderTest : BaseConcoursePluginTest() {
+class ConcoursePipelineSchemaProviderTest : BasePlatformTestCase() {
+    override fun getTestDataPath(): String {
+        return "src/test/testData"
+    }
+
     fun testValid() {
         myFixture.enableInspections(YamlJsonSchemaHighlightingInspection())
         myFixture.configureByFile("pipeline.yml")

@@ -1,15 +1,15 @@
 package com.cedricziel.idea.concourse.psi
 
-import com.cedricziel.idea.concourse.BaseConcoursePluginTest
 import com.intellij.psi.PsiPolyVariantReference
 import com.intellij.testFramework.UsefulTestCase
+import com.intellij.testFramework.fixtures.BasePlatformTestCase
 import com.intellij.util.containers.ContainerUtil
 import junit.framework.TestCase
 import org.jetbrains.yaml.psi.YAMLScalar
 
-class ConcourseReferenceContributorTest : BaseConcoursePluginTest() {
+class ConcourseReferenceContributorTest : BasePlatformTestCase() {
     override fun getTestDataPath(): String {
-        return super.getTestDataPath() + "/psi"
+        return "src/test/testData/psi"
     }
 
     fun testCanResolveResource() {

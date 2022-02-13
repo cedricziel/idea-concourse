@@ -2,13 +2,13 @@
 
 ## [Unreleased]
 ### Added
-* Added support for IntelliJ 2022.1
+- Added support for IntelliJ 2022.1
 ### Changed
-* Align Qodana step with upstream
+- Align Qodana step with upstream
 ### Deprecated
 
 ### Removed
-* Removed detekt config
+- Removed detekt config
 
 ### Fixed
 

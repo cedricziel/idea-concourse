@@ -4,7 +4,7 @@
 ### Added
 * Added support for IntelliJ 2022.1
 ### Changed
-
+* Align Qodana step with upstream
 ### Deprecated
 
 ### Removed

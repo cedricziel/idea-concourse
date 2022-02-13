@@ -8,6 +8,7 @@
 ### Deprecated
 
 ### Removed
+* Removed detekt config
 
 ### Fixed
 

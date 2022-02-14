@@ -1,10 +1,14 @@
 # Changelog
 
 ## [Unreleased]
+
+## [0.0.13]
 ### Added
 - Added support for IntelliJ 2022.1
+
 ### Changed
 - Align Qodana step with upstream
+
 ### Deprecated
 
 ### Removed
@@ -22,14 +26,6 @@
 - Migrate getResource usage to reference current classloader
 - Migrate getIcon usage to reference current classloader
 - Override getDisplayName for custom file types
-
-### Deprecated
-
-### Removed
-
-### Fixed
-
-### Security
 
 ## [0.0.11]
 ### Added

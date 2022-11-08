@@ -3,7 +3,6 @@ package com.cedricziel.idea.concourse.psi
 import com.intellij.psi.PsiPolyVariantReference
 import com.intellij.testFramework.UsefulTestCase
 import com.intellij.testFramework.fixtures.BasePlatformTestCase
-import com.intellij.util.containers.ContainerUtil
 import junit.framework.TestCase
 import org.jetbrains.yaml.psi.YAMLScalar
 
@@ -32,8 +31,7 @@ class ConcourseReferenceContributorTest : BasePlatformTestCase() {
             val reference = getReferenceAtCaretPosition() as PsiPolyVariantReference?
             TestCase.assertNotNull(reference)
 
-            val resolveResults = reference?.multiResolve(true)
-            ContainerUtil.map(resolveResults) {
+            reference?.multiResolve(true)?.map {
                 it?.element.let { element ->
                     TestCase.assertNotNull(element)
                     UsefulTestCase.assertInstanceOf(element, YAMLScalar::class.java)

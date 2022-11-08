@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 0.0.15 - 2022-11-08
+
 ### Changed
 - Set 2022.2.3 as baseline
 

@@ -31,7 +31,6 @@ class ConcourseReferenceContributorTest : BasePlatformTestCase() {
             val reference = getReferenceAtCaretPosition() as PsiPolyVariantReference?
             TestCase.assertNotNull(reference)
 
-            //ContainerUtil.map(resolveResults) {
             reference?.multiResolve(true)?.map {
                 it?.element.let { element ->
                     TestCase.assertNotNull(element)

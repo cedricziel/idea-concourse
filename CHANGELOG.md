@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased]
+### Added
+- Added support for IntelliJ 2022.2
 
 ## [0.0.13]
 ### Added

@@ -4,6 +4,7 @@
 
 ### Changed
 - Set 2022.3 as baseline
+- Upgrade to Java 17
 
 ## 0.0.15 - 2022-11-08
 
